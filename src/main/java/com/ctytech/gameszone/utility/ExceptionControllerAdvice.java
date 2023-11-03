@@ -1,15 +1,19 @@
 package com.ctytech.gameszone.utility;
 
 import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.ctytech.gameszone.exception.GameszoneException;
+
+import jakarta.validation.ConstraintViolationException;
 
 @RestControllerAdvice
 public class ExceptionControllerAdvice {
@@ -36,6 +40,32 @@ public class ExceptionControllerAdvice {
         //
         error.setErrorCode(HttpStatus.BAD_REQUEST.value());
         error.setErrorMessage(environment.getProperty(exception.getMessage()));
+        error.setTimestamp(LocalDateTime.now());
+        //
+        return new ResponseEntity<ErrorInfo>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({ MethodArgumentNotValidException.class, ConstraintViolationException.class })
+    public ResponseEntity<ErrorInfo> exceptionHandler(Exception exception) {
+        //
+        ErrorInfo error = new ErrorInfo();
+        //
+        error.setErrorCode(HttpStatus.BAD_REQUEST.value());
+        //
+        String errorMessage = "";
+        if (exception instanceof MethodArgumentNotValidException) {
+            MethodArgumentNotValidException exception1 = (MethodArgumentNotValidException) exception;
+            //
+            errorMessage = exception1.getBindingResult().getAllErrors().stream().map(err -> err.getDefaultMessage())
+                    .collect(Collectors.joining(", "));
+        } else {
+            ConstraintViolationException exception2 = (ConstraintViolationException) exception;
+            //
+            errorMessage = exception2.getConstraintViolations().stream().map(err -> err.getMessage())
+                    .collect(Collectors.joining(", "));
+        }
+        //
+        error.setErrorMessage(errorMessage);
         error.setTimestamp(LocalDateTime.now());
         //
         return new ResponseEntity<ErrorInfo>(error, HttpStatus.BAD_REQUEST);
