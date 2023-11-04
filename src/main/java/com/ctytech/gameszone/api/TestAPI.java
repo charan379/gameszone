@@ -3,7 +3,7 @@ package com.ctytech.gameszone.api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ctytech.gameszone.exception.GameszoneException;
+// import com.ctytech.gameszone.exception.GameszoneException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
