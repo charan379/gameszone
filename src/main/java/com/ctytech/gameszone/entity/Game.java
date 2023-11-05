@@ -1,6 +1,10 @@
 package com.ctytech.gameszone.entity;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.ctytech.gameszone.dto.GameDTO;
+import com.ctytech.gameszone.dto.SlotDTO;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -57,6 +61,23 @@ public class Game {
 
     public void setSlots(List<Slot> slots) {
         this.slots = slots;
+    }
+
+    public GameDTO toDto() {
+        //
+        GameDTO gameDTO = new GameDTO();
+        //
+        List<SlotDTO> slotDTOs = new ArrayList<SlotDTO>();
+        //
+        gameDTO.setGameId(this.gameId);
+        gameDTO.setGameName(this.gameName);
+        gameDTO.setImage(this.image);
+        //
+        this.slots.stream().forEach(slot -> slotDTOs.add(slot.toDto()));
+        //
+        gameDTO.setSlotDTOs(slotDTOs);
+        //
+        return gameDTO;
     }
 
     @Override
