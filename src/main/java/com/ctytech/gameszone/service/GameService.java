@@ -7,7 +7,7 @@ import com.ctytech.gameszone.exception.GameszoneException;
 
 public interface GameService {
 
-    String createNewGame(GameDTO gameDTO) throws GameszoneException;
+    GameDTO createNewGame(GameDTO gameDTO) throws GameszoneException;
 
     GameDTO getGame(Integer gameId) throws GameszoneException;
 
