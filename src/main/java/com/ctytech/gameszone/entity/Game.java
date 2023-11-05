@@ -59,4 +59,9 @@ public class Game {
         this.slots = slots;
     }
 
+    @Override
+    public String toString() {
+        return "Game [gameId=" + gameId + ", gameName=" + gameName + ", image=" + image + ", slots=" + slots + "]";
+    }
+
 }
