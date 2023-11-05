@@ -15,7 +15,7 @@ public class GameDTO {
 
     private String image;
 
-    private List<SlotDTO> slotDTOs;
+    private List<SlotDTO> slots;
 
     public Integer getGameId() {
         return gameId;
@@ -41,12 +41,18 @@ public class GameDTO {
         this.image = image;
     }
 
-    public List<SlotDTO> getSlotDTOs() {
-        return slotDTOs;
+    public List<SlotDTO> getSlots() {
+        return slots;
     }
 
-    public void setSlotDTOs(List<SlotDTO> slotDTOs) {
-        this.slotDTOs = slotDTOs;
+    public void setSlots(List<SlotDTO> slotDTOs) {
+        this.slots = slotDTOs;
     }
 
+    @Override
+    public String toString() {
+        return "GameDTO [gameId=" + gameId + ", gameName=" + gameName + ", image=" + image + ", slots=" + slots + "]";
+    }
+
+    
 }

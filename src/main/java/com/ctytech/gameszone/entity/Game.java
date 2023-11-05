@@ -75,7 +75,7 @@ public class Game {
         //
         this.slots.stream().forEach(slot -> slotDTOs.add(slot.toDto()));
         //
-        gameDTO.setSlotDTOs(slotDTOs);
+        gameDTO.setSlots(slotDTOs);
         //
         return gameDTO;
     }
