@@ -13,8 +13,10 @@ public class SlotDTO {
     @Size(max = 16, min = 2, message = "{slot.slotname.invalid}")
     private String slotName;
 
+    @NotNull(message = "{slot.starttime.absent}")
     private LocalTime startTime;
 
+    @NotNull(message = "{slot.endtime.absent}")
     private LocalTime endTime;
 
     public Integer getSlotId() {
