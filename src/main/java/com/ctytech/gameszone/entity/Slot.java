@@ -2,6 +2,8 @@ package com.ctytech.gameszone.entity;
 
 import java.time.LocalTime;
 
+import com.ctytech.gameszone.dto.SlotDTO;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -56,5 +58,21 @@ public class Slot {
         this.endTime = endTime;
     }
 
-    
+    public SlotDTO toDto() {
+        SlotDTO slotDTO = new SlotDTO();
+
+        slotDTO.setSlotId(this.slotId);
+        slotDTO.setSlotName(this.slotName);
+        slotDTO.setStartTime(this.startTime);
+        slotDTO.setEndTime(this.endTime);
+
+        return slotDTO;
+    }
+
+    @Override
+    public String toString() {
+        return "Slot [slotId=" + slotId + ", slotName=" + slotName + ", startTime=" + startTime + ", endTime=" + endTime
+                + "]";
+    }
+
 }
