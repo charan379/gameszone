@@ -1,5 +1,7 @@
 package com.ctytech.gameszone.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,13 +22,27 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String registerNewUser(UserDTO userDTO) throws GameszoneException {
-        
+
+        // check if user already exits
+        // check username
+        Optional<User> username = userRepository.findByUserName(userDTO.getUserName());
+        if (username.isPresent()) {
+            throw new GameszoneException("UserService.USERNAME_ALREADY_EXISTS");
+        }
+        // check email
+        Optional<User> email = userRepository.findByEmail(userDTO.getEmail());
+        if (email.isPresent()) {
+            throw new GameszoneException("UserService.EMAIL_ALREADY_EXIST");
+        }
+
+        // if user not exits then create new user
         User user = new User();
-        System.out.println(userDTO);
+        //
         user.setUserName(userDTO.getUserName());
         user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
         user.setEmail(userDTO.getEmail());
-        System.out.println(user);
+        //
+        // create newUser
         User newUser = userRepository.save(user);
 
         return "User registered successfully, with userName : " + newUser.getUserName();
@@ -34,20 +50,35 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUser(String username) throws GameszoneException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUser'");
+        Optional<User> user = userRepository.findByUserName(username);
+
+        if (user.isPresent()) {
+            return user.get().toDto();
+        } else {
+            throw new GameszoneException("UserService.USER_NOT_FOUND");
+        }
     }
 
     @Override
     public UserDTO getUser(Integer userId) throws GameszoneException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUser'");
+        Optional<User> user = userRepository.findById(userId);
+
+        if (user.isPresent()) {
+            return user.get().toDto();
+        } else {
+            throw new GameszoneException("UserService.USER_NOT_FOUND");
+        }
     }
 
     @Override
     public UserDTO getUserByEmail(String email) throws GameszoneException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUserByEmail'");
+        Optional<User> user = userRepository.findByEmail(email);
+
+        if (user.isPresent()) {
+            return user.get().toDto();
+        } else {
+            throw new GameszoneException("UserService.USER_NOT_FOUND");
+        }
     }
 
 }
