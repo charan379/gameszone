@@ -1,10 +1,12 @@
 package com.ctytech.gameszone.entity;
 
+import com.ctytech.gameszone.dto.UserDTO;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -15,13 +17,14 @@ public class User {
     private Integer userId;
 
     @NotNull
+    @Column(unique = true)
     private String userName;
 
     @NotNull
     private String password;
 
     @NotNull
-    @Email
+    @Column(unique = true)
     private String email;
 
     public Integer getUserId() {
@@ -54,6 +57,24 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public UserDTO toDto() {
+
+        UserDTO userDTO = new UserDTO();
+
+        userDTO.setUserId(this.userId);
+        userDTO.setUserName(this.userName);
+        userDTO.setPassword(this.password);
+        userDTO.setEmail(this.email);
+
+        return userDTO;
+    }
+
+    @Override
+    public String toString() {
+        return "User [userId=" + userId + ", userName=" + userName + ", password=" + password + ", email=" + email
+                + "]";
     }
 
 }
