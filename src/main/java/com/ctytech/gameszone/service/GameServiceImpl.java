@@ -12,7 +12,11 @@ import com.ctytech.gameszone.entity.Slot;
 import com.ctytech.gameszone.exception.GameszoneException;
 import com.ctytech.gameszone.repository.GameRepository;
 
+import jakarta.transaction.Transactional;
+
+
 @Service(value = "gameService")
+@Transactional
 public class GameServiceImpl implements GameService {
 
     @Autowired
