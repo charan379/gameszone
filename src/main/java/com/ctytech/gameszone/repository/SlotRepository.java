@@ -7,5 +7,5 @@ import com.ctytech.gameszone.entity.Slot;
 
 @Repository
 public interface SlotRepository extends CrudRepository<Slot, Integer> {
-
+    
 }
