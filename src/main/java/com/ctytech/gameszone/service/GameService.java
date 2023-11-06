@@ -14,4 +14,9 @@ public interface GameService {
     GameDTO getGame(String gameName) throws GameszoneException;
 
     Page<GameDTO> searchGames(String gameName, Integer pageNo, Integer resultsPerPage) throws GameszoneException;
+
+    GameDTO updateGameNameById(Integer gameId, String newGameName) throws GameszoneException;
+
+    GameDTO updateGameImageById(Integer gameId, String newGameImage) throws GameszoneException;
+
 }

@@ -101,4 +101,35 @@ public class GameServiceImpl implements GameService {
         return gPage;
     }
 
+    @Override
+    public GameDTO updateGameNameById(Integer gameId, String newGameName) throws GameszoneException {
+
+        // Check if GameName already exits
+        Optional<Game> gameNameExits = gameRepository.findByGameName(newGameName);
+        //
+        if (gameNameExits.isPresent() && !(gameNameExits.get().getGameId().equals(gameId))) {
+            throw new GameszoneException("GameService.GAMENAME_ALREADY_EXIST");
+        }
+        //
+        Optional<Game> optionalGame = gameRepository.findById(gameId);
+        //
+        Game gameToBeUpdated = optionalGame.orElseThrow(() -> new GameszoneException("GameService.GAMEID_NOT_FOUND"));
+        //
+        gameToBeUpdated.setGameName(newGameName);
+        //
+        return gameToBeUpdated.toDto();
+    }
+
+    @Override
+    public GameDTO updateGameImageById(Integer gameId, String newGameImage) throws GameszoneException {
+        //
+        Optional<Game> optionalGame = gameRepository.findById(gameId);
+        //
+        Game gameToBeUpdated = optionalGame.orElseThrow(() -> new GameszoneException("GameService.GAMEID_NOT_FOUND"));
+        //
+        gameToBeUpdated.setImage(newGameImage);
+        //
+        return gameToBeUpdated.toDto();
+    }
+
 }
