@@ -7,6 +7,7 @@ import com.ctytech.gameszone.dto.GameDTO;
 import com.ctytech.gameszone.dto.SlotDTO;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,6 +24,7 @@ public class Game {
     private Integer gameId;
 
     @NotNull
+    @Column(unique = true)
     private String gameName;
 
     private String image;
