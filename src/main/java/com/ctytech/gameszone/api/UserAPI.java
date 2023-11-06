@@ -49,7 +49,7 @@ public class UserAPI {
         } else if (email != null) {
             userDTO = userService.getUserByEmail(email);
         } else {
-            throw new GameszoneException("UserService.QUERY_NOT_PROVIDED");
+            throw new GameszoneException("UserAPI.QUERY_NOT_PROVIDED");
         }
 
         userDTO.setPassword(null);
