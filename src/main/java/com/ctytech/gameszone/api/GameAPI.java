@@ -81,4 +81,16 @@ public class GameAPI {
         //
         return new ResponseEntity<GameDTO>(updatedGame, HttpStatus.OK);
     }
+
+    @PutMapping(value = "/update/{gameId}/image")
+    public ResponseEntity<GameDTO> updateGameImage(
+            @PathVariable(name = "gameId") @Pattern(regexp = "^[0-9]*$", message = "{game.gameId.invalid}") String gameId,
+            @RequestParam(name = "gameImage", defaultValue = "") String gameImage)
+            throws GameszoneException {
+
+        //
+        GameDTO updatedGame = gameService.updateGameImageById(Integer.parseInt(gameId), gameImage);
+        //
+        return new ResponseEntity<GameDTO>(updatedGame, HttpStatus.OK);
+    }
 }
