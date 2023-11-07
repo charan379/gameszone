@@ -8,5 +8,5 @@ import com.ctytech.gameszone.exception.GameszoneException;
 public interface SlotService {
     List<SlotDTO> getSlotsByGameId(Integer gameId) throws GameszoneException;
 
-    SlotDTO updateSlot(Integer gameId, Integer slotId, SlotDTO slot) throws GameszoneException;
+    SlotDTO updateSlot(Integer gameId, Integer slotId, SlotDTO update) throws GameszoneException;
 }
