@@ -1,8 +1,12 @@
 package com.ctytech.gameszone.dto;
 
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class SlotDTO {
@@ -14,10 +18,14 @@ public class SlotDTO {
     private String slotName;
 
     @NotNull(message = "{slot.starttime.absent}")
-    private LocalTime startTime;
+    @Pattern(regexp = "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$", message = "{slot.starttime.invalid}")
+    @Temporal(TemporalType.TIME)
+    private String startTime;
 
     @NotNull(message = "{slot.endtime.absent}")
-    private LocalTime endTime;
+    @Pattern(regexp = "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$", message = "{slot.endtime.invalid}")
+    @Temporal(TemporalType.TIME)
+    private String endTime;
 
     public Integer getSlotId() {
         return slotId;
@@ -36,19 +44,26 @@ public class SlotDTO {
     }
 
     public LocalTime getStartTime() {
-        return startTime;
+        return convertStringToLocalTime(startTime);
     }
 
-    public void setStartTime(LocalTime startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
     public LocalTime getEndTime() {
-        return endTime;
+        return convertStringToLocalTime(endTime);
     }
 
-    public void setEndTime(LocalTime endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
+
+    }
+
+    public LocalTime convertStringToLocalTime(String time) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        LocalTime formatedLocalTime = LocalTime.parse(time.toString(), dateTimeFormatter);
+        return formatedLocalTime;
     }
 
     @Override

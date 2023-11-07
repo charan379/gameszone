@@ -63,8 +63,8 @@ public class Slot {
 
         slotDTO.setSlotId(this.slotId);
         slotDTO.setSlotName(this.slotName);
-        slotDTO.setStartTime(this.startTime);
-        slotDTO.setEndTime(this.endTime);
+        slotDTO.setStartTime(this.startTime.toString());
+        slotDTO.setEndTime(this.endTime.toString());
 
         return slotDTO;
     }
