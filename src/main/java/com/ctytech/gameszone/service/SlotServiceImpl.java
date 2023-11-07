@@ -20,6 +20,9 @@ public class SlotServiceImpl implements SlotService {
     @Autowired
     private SlotRepository slotRepository;
 
+    @Autowired
+    private GameService gameService;
+
     @Override
     public List<SlotDTO> getSlotsByGameId(Integer gameId) throws GameszoneException {
         //
@@ -32,6 +35,12 @@ public class SlotServiceImpl implements SlotService {
         }
         //
         return slotDTOs;
+    }
+
+    @Override
+    public SlotDTO updateSlot(Integer gameId, Integer slotId, SlotDTO slot) throws GameszoneException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updateSlot'");
     }
 
 }
