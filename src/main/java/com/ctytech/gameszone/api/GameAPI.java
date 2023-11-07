@@ -26,7 +26,7 @@ import jakarta.validation.constraints.Size;
 
 @RestController
 @Validated
-@RequestMapping(value = "game")
+@RequestMapping(value = "/game")
 public class GameAPI {
 
     @Autowired
