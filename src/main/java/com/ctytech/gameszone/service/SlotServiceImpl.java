@@ -54,6 +54,7 @@ public class SlotServiceImpl implements SlotService {
         slotToBeUpdated.setSlotName(update.getSlotName());
         slotToBeUpdated.setStartTime(update.getStartTime());
         slotToBeUpdated.setEndTime(update.getEndTime());
+        slotToBeUpdated.setLocation(update.getLocation());
         //
         return slotToBeUpdated.toDto();
     }
