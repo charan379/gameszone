@@ -27,6 +27,8 @@ public class SlotDTO {
     @Temporal(TemporalType.TIME)
     private String endTime;
 
+    private String location;
+
     public Integer getSlotId() {
         return slotId;
     }
@@ -60,6 +62,14 @@ public class SlotDTO {
 
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public LocalTime convertStringToLocalTime(String time) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         LocalTime formatedLocalTime = LocalTime.parse(time.toString(), dateTimeFormatter);
@@ -74,6 +84,7 @@ public class SlotDTO {
         result = prime * result + ((slotName == null) ? 0 : slotName.hashCode());
         result = prime * result + ((startTime == null) ? 0 : startTime.hashCode());
         result = prime * result + ((endTime == null) ? 0 : endTime.hashCode());
+        result = prime * result + ((location == null) ? 0 : location.hashCode());
         return result;
     }
 
@@ -106,13 +117,18 @@ public class SlotDTO {
                 return false;
         } else if (!endTime.equals(other.endTime))
             return false;
+        if (location == null) {
+            if (other.location != null)
+                return false;
+        } else if (!location.equals(other.location))
+            return false;
         return true;
     }
 
     @Override
     public String toString() {
         return "SlotDTO [slotId=" + slotId + ", slotName=" + slotName + ", startTime=" + startTime + ", endTime="
-                + endTime + "]";
+                + endTime + ", location=" + location + "]";
     }
 
 }
