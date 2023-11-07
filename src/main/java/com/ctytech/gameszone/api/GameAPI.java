@@ -1,5 +1,7 @@
 package com.ctytech.gameszone.api;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -15,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ctytech.gameszone.dto.GameDTO;
+import com.ctytech.gameszone.dto.SlotDTO;
 import com.ctytech.gameszone.exception.GameszoneException;
 import com.ctytech.gameszone.service.GameService;
+import com.ctytech.gameszone.service.SlotService;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -31,6 +35,9 @@ public class GameAPI {
 
     @Autowired
     private GameService gameService;
+
+    @Autowired
+    private SlotService slotService;
 
     @PostMapping(value = "/add")
     public ResponseEntity<GameDTO> postNewGame(@RequestBody @Valid GameDTO gameDTO) throws GameszoneException {
@@ -92,5 +99,15 @@ public class GameAPI {
         GameDTO updatedGame = gameService.updateGameImageById(Integer.parseInt(gameId), gameImage);
         //
         return new ResponseEntity<GameDTO>(updatedGame, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{gameId}/slots")
+    public ResponseEntity<List<SlotDTO>> getSlots(
+            @PathVariable(name = "gameId") @Pattern(regexp = "^[0-9]*$", message = "{game.gameId.invalid}") String gameId)
+            throws GameszoneException {
+        //
+        List<SlotDTO> slotDTOs = slotService.getSlotsByGameId(Integer.parseInt(gameId));
+        //
+        return new ResponseEntity<List<SlotDTO>>(slotDTOs, HttpStatus.OK);
     }
 }
