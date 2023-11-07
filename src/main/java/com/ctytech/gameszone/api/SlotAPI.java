@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,5 +35,16 @@ public class SlotAPI {
         SlotDTO updatedSlot = slotService.updateSlot(Integer.parseInt(gameId), Integer.parseInt(slotId), slot);
         //
         return new ResponseEntity<SlotDTO>(updatedSlot, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/{gameId}/add/slot")
+    public ResponseEntity<SlotDTO> addSlot(
+            @PathVariable(name = "gameId") @Pattern(regexp = "^[0-9]*$", message = "{game.gameId.invalid}") String gameId,
+            @RequestBody @Valid SlotDTO slot)
+            throws GameszoneException {
+
+        SlotDTO newSlot = slotService.addSlot(Integer.parseInt(gameId), slot);
+
+        return new ResponseEntity<SlotDTO>(newSlot, HttpStatus.CREATED);
     }
 }
