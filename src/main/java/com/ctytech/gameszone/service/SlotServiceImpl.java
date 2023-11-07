@@ -59,6 +59,26 @@ public class SlotServiceImpl implements SlotService {
         return slotToBeUpdated.toDto();
     }
 
+    @Override
+    public SlotDTO addSlot(Integer gameId, SlotDTO newSlot) throws GameszoneException {
+
+        GameDTO game = gameService.getGame(gameId);
+        // validate slotName
+        validateSlotName(game.getSlots(), null, newSlot.getSlotName());
+        //
+        Slot slot = new Slot();
+        //
+        slot.setSlotName(newSlot.getSlotName());
+        slot.setStartTime(newSlot.getStartTime());
+        slot.setEndTime(newSlot.getEndTime());
+        slot.setLocation(newSlot.getLocation());
+        //
+        SlotDTO slotDTO = gameService.addGameSlot(gameId, slot).getSlots().stream()
+                .filter(slotDto -> slotDto.getSlotName().equals(slot.getSlotName())).findFirst().get();
+        //
+        return slotDTO;
+    }
+
     // validate slot name
     private void validateSlotName(List<SlotDTO> existingSlots, Integer slotId, String slotName)
             throws GameszoneException {

@@ -9,4 +9,6 @@ public interface SlotService {
     List<SlotDTO> getSlotsByGameId(Integer gameId) throws GameszoneException;
 
     SlotDTO updateSlot(Integer gameId, Integer slotId, SlotDTO update) throws GameszoneException;
+
+    SlotDTO addSlot(Integer gameId, SlotDTO newSlot) throws GameszoneException;
 }
