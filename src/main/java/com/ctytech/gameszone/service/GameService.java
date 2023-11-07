@@ -3,6 +3,7 @@ package com.ctytech.gameszone.service;
 import org.springframework.data.domain.Page;
 
 import com.ctytech.gameszone.dto.GameDTO;
+import com.ctytech.gameszone.entity.Slot;
 import com.ctytech.gameszone.exception.GameszoneException;
 
 public interface GameService {
@@ -19,4 +20,5 @@ public interface GameService {
 
     GameDTO updateGameImageById(Integer gameId, String newGameImage) throws GameszoneException;
 
+    GameDTO addGameSlot(Integer gameId, Slot newSlot) throws GameszoneException;
 }
