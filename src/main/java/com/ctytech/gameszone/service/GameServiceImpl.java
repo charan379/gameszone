@@ -133,15 +133,13 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public GameDTO addGameSlot(Integer gameId, Slot newSlot) throws GameszoneException {
+    public void addGameSlot(Integer gameId, Slot newSlot) throws GameszoneException {
         //
         Optional<Game> optionalGame = gameRepository.findById(gameId);
         //
         Game game = optionalGame.orElseThrow(() -> new GameszoneException("GameService.GAME_NOT_FOUND"));
         //
         game.getSlots().add(newSlot);
-        //
-        return game.toDto();
     }
 
 }

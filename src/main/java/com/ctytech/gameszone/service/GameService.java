@@ -20,5 +20,5 @@ public interface GameService {
 
     GameDTO updateGameImageById(Integer gameId, String newGameImage) throws GameszoneException;
 
-    GameDTO addGameSlot(Integer gameId, Slot newSlot) throws GameszoneException;
+    void addGameSlot(Integer gameId, Slot newSlot) throws GameszoneException;
 }
