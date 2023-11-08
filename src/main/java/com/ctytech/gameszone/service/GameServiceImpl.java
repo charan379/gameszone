@@ -43,13 +43,13 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public GameDTO getGame(Integer gameId) throws GameszoneException {
+    public GameDTO getGame(Integer gameId, boolean includeSlots) throws GameszoneException {
         //
         Optional<Game> game = gameRepository.findById(gameId);
         //
         if (game.isPresent()) {
             //
-            return game.get().toDto();
+            return game.get().toDto(includeSlots);
         } else {
             //
             throw new GameszoneException("GameService.GAME_NOT_FOUND");
@@ -58,12 +58,12 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public GameDTO getGame(String gameName) throws GameszoneException {
+    public GameDTO getGame(String gameName, boolean includeSlots) throws GameszoneException {
         //
         Optional<Game> game = gameRepository.findByGameName(gameName);
         //
         if (game.isPresent()) {
-            return game.get().toDto();
+            return game.get().toDto(includeSlots);
         } else {
             //
             throw new GameszoneException("GameService.GAME_NOT_FOUND");
@@ -72,14 +72,14 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public Page<GameDTO> searchGames(String gameName, Integer pageNo, Integer resultsPerPage)
+    public Page<GameDTO> searchGames(String gameName, Integer pageNo, Integer resultsPerPage, boolean includeSlots)
             throws GameszoneException {
 
         Pageable pageable = PageRequest.of(pageNo, resultsPerPage, Sort.by(Sort.Direction.ASC, "gameName"));
 
         Page<Game> gamePage = gameRepository.searchGameByName(gameName, pageable);
 
-        Page<GameDTO> gPage = gamePage.map(game -> game.toDto());
+        Page<GameDTO> gPage = gamePage.map(game -> game.toDto(includeSlots));
 
         return gPage;
     }

@@ -42,7 +42,7 @@ public class SlotServiceImpl implements SlotService {
     @Override
     public SlotDTO updateSlot(Integer gameId, Integer slotId, SlotDTO update) throws GameszoneException {
 
-        GameDTO game = gameService.getGame(gameId);
+        GameDTO game = gameService.getGame(gameId, true);
 
         Optional<Slot> optionalSlot = slotRepository.findById(slotId);
 
@@ -62,7 +62,7 @@ public class SlotServiceImpl implements SlotService {
     @Override
     public SlotDTO addSlot(Integer gameId, SlotDTO newSlot) throws GameszoneException {
 
-        GameDTO game = gameService.getGame(gameId);
+        GameDTO game = gameService.getGame(gameId, true);
         // validate slotName
         validateSlotName(game.getSlots(), null, newSlot.getSlotName());
         //

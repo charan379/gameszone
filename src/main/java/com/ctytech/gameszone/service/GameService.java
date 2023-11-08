@@ -10,11 +10,12 @@ public interface GameService {
 
     GameDTO createNewGame(GameDTO gameDTO) throws GameszoneException;
 
-    GameDTO getGame(Integer gameId) throws GameszoneException;
+    GameDTO getGame(Integer gameId, boolean includeSlots) throws GameszoneException;
 
-    GameDTO getGame(String gameName) throws GameszoneException;
+    GameDTO getGame(String gameName, boolean includeSlots) throws GameszoneException;
 
-    Page<GameDTO> searchGames(String gameName, Integer pageNo, Integer resultsPerPage) throws GameszoneException;
+    Page<GameDTO> searchGames(String gameName, Integer pageNo, Integer resultsPerPage, boolean includeSlots)
+            throws GameszoneException;
 
     GameDTO updateGameNameById(Integer gameId, String newGameName) throws GameszoneException;
 

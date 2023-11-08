@@ -69,15 +69,28 @@ public class Game {
         //
         GameDTO gameDTO = new GameDTO();
         //
+        gameDTO.setGameId(this.gameId);
+        gameDTO.setGameName(this.gameName);
+        gameDTO.setImage(this.image);
+        //
+        return gameDTO;
+    }
+
+    public GameDTO toDto(boolean includeSlots) {
+        //
+        GameDTO gameDTO = new GameDTO();
+        //
         List<SlotDTO> slotDTOs = new ArrayList<SlotDTO>();
         //
         gameDTO.setGameId(this.gameId);
         gameDTO.setGameName(this.gameName);
         gameDTO.setImage(this.image);
         //
-        this.slots.stream().forEach(slot -> slotDTOs.add(slot.toDto()));
+        if (this.slots != null && includeSlots)
+            this.slots.stream().forEach(slot -> slotDTOs.add(slot.toDto()));
         //
-        gameDTO.setSlots(slotDTOs);
+        if (includeSlots)
+            gameDTO.setSlots(slotDTOs);
         //
         return gameDTO;
     }

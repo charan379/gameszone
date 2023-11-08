@@ -49,15 +49,16 @@ public class GameAPI {
 
     @GetMapping()
     public ResponseEntity<GameDTO> getGame(@RequestParam(required = false, name = "gameId") Integer gameId,
-            @RequestParam(required = false, name = "gameName") String gameName)
+            @RequestParam(required = false, name = "gameName") String gameName,
+            @RequestParam(required = false, name = "include", defaultValue = "") List<String> include)
             throws GameszoneException {
 
         GameDTO gameDTO = new GameDTO();
 
         if (gameId != null) {
-            gameDTO = gameService.getGame(gameId);
+            gameDTO = gameService.getGame(gameId, include.contains("slots"));
         } else if (gameName != null) {
-            gameDTO = gameService.getGame(gameName);
+            gameDTO = gameService.getGame(gameName, include.contains("slots"));
         } else {
             throw new GameszoneException("GameAPI.QUERY_NOT_PROVIDED");
         }
@@ -69,10 +70,12 @@ public class GameAPI {
     public ResponseEntity<Page<GameDTO>> searchGames(
             @RequestParam(name = "query", defaultValue = "") String query,
             @RequestParam(name = "pageNo", defaultValue = "0") @Pattern(regexp = "^[0-9]*$", message = "{page.pageno.invalid}") String pageNo,
-            @RequestParam(name = "limit", defaultValue = "10") @Pattern(regexp = "^[0-9]*$", message = "{page.limit.invalid}") @Min(value = 1, message = "{page.limit.min}") String limit)
+            @RequestParam(name = "limit", defaultValue = "10") @Pattern(regexp = "^[0-9]*$", message = "{page.limit.invalid}") @Min(value = 1, message = "{page.limit.min}") String limit,
+            @RequestParam(required = false, name = "include", defaultValue = "") List<String> include)
             throws GameszoneException {
 
-        Page<GameDTO> gamepage = gameService.searchGames(query, Integer.parseInt(pageNo), Integer.parseInt(limit));
+        Page<GameDTO> gamepage = gameService.searchGames(query, Integer.parseInt(pageNo), Integer.parseInt(limit),
+                include.contains("slots"));
 
         return new ResponseEntity<>(gamepage, HttpStatus.OK);
     }
