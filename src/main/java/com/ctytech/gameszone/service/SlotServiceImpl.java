@@ -80,6 +80,9 @@ public class SlotServiceImpl implements SlotService {
                 .filter(s -> s.getSlotName().equals(slot.getSlotName())).findFirst()
                 .orElseThrow(() -> new GameszoneException("SlotService.SLOT_ADDED_BUT_CANT_RETRIVE_ID"));
 
+        //
+        newlyAddedSlot.setGameId(gameId);
+        //
         return newlyAddedSlot.toDto();
     }
 

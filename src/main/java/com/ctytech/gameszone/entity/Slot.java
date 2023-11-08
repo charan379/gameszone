@@ -28,6 +28,8 @@ public class Slot {
 
     private String location;
 
+    private Integer gameId;
+
     public Integer getSlotId() {
         return slotId;
     }
@@ -76,14 +78,23 @@ public class Slot {
         slotDTO.setStartTime(this.startTime.toString());
         slotDTO.setEndTime(this.endTime.toString());
         slotDTO.setLocation(this.location);
+        slotDTO.setGameId(this.gameId);
         //
         return slotDTO;
+    }
+
+    public Integer getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(Integer gameId) {
+        this.gameId = gameId;
     }
 
     @Override
     public String toString() {
         return "Slot [slotId=" + slotId + ", slotName=" + slotName + ", startTime=" + startTime + ", endTime=" + endTime
-                + ", location=" + location + "]";
+                + ", location=" + location + ", gameId=" + gameId + "]";
     }
 
 }

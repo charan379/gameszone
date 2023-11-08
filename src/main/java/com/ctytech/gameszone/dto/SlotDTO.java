@@ -29,6 +29,8 @@ public class SlotDTO {
 
     private String location;
 
+    private Integer gameId;
+
     public Integer getSlotId() {
         return slotId;
     }
@@ -70,6 +72,14 @@ public class SlotDTO {
         this.location = location;
     }
 
+    public Integer getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(Integer gameId) {
+        this.gameId = gameId;
+    }
+
     public LocalTime convertStringToLocalTime(String time) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         LocalTime formatedLocalTime = LocalTime.parse(time.toString(), dateTimeFormatter);
@@ -85,6 +95,7 @@ public class SlotDTO {
         result = prime * result + ((startTime == null) ? 0 : startTime.hashCode());
         result = prime * result + ((endTime == null) ? 0 : endTime.hashCode());
         result = prime * result + ((location == null) ? 0 : location.hashCode());
+        result = prime * result + ((gameId == null) ? 0 : gameId.hashCode());
         return result;
     }
 
@@ -122,13 +133,18 @@ public class SlotDTO {
                 return false;
         } else if (!location.equals(other.location))
             return false;
+        if (gameId == null) {
+            if (other.gameId != null)
+                return false;
+        } else if (!gameId.equals(other.gameId))
+            return false;
         return true;
     }
 
     @Override
     public String toString() {
         return "SlotDTO [slotId=" + slotId + ", slotName=" + slotName + ", startTime=" + startTime + ", endTime="
-                + endTime + ", location=" + location + "]";
+                + endTime + ", location=" + location + ", gameId=" + gameId + "]";
     }
 
 }
