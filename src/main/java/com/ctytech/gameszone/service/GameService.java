@@ -8,18 +8,60 @@ import com.ctytech.gameszone.exception.GameszoneException;
 
 public interface GameService {
 
+    /**
+     * @param gameDTO
+     * @return GameDTO
+     * @throws GameszoneException
+     */
     GameDTO createNewGame(GameDTO gameDTO) throws GameszoneException;
 
+    /**
+     * @param gameId
+     * @param includeSlots
+     * @return GameDTO
+     * @throws GameszoneException
+     */
     GameDTO getGame(Integer gameId, boolean includeSlots) throws GameszoneException;
 
+    /**
+     * @param gameName
+     * @param includeSlots
+     * @return GameDTO
+     * @throws GameszoneException
+     */
     GameDTO getGame(String gameName, boolean includeSlots) throws GameszoneException;
 
+    /**
+     * @param gameName
+     * @param pageNo
+     * @param resultsPerPage
+     * @param includeSlots
+     * @return Page<GameDTO>
+     * @throws GameszoneException
+     */
     Page<GameDTO> searchGames(String gameName, Integer pageNo, Integer resultsPerPage, boolean includeSlots)
             throws GameszoneException;
 
+    /**
+     * @param gameId
+     * @param newGameName
+     * @return GameDTO
+     * @throws GameszoneException
+     */
     GameDTO updateGameNameById(Integer gameId, String newGameName) throws GameszoneException;
 
+    /**
+     * @param gameId
+     * @param newGameImage
+     * @return GameDTO
+     * @throws GameszoneException
+     */
     GameDTO updateGameImageById(Integer gameId, String newGameImage) throws GameszoneException;
 
+    /**
+     * @param gameId
+     * @param newSlot
+     * @throws GameszoneException
+     */
     void addGameSlot(Integer gameId, Slot newSlot) throws GameszoneException;
 }

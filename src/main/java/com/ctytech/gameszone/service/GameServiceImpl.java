@@ -24,6 +24,9 @@ public class GameServiceImpl implements GameService {
     @Autowired
     private GameRepository gameRepository;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GameDTO createNewGame(GameDTO gameDTO) throws GameszoneException {
 
@@ -42,6 +45,9 @@ public class GameServiceImpl implements GameService {
         return gameRepository.save(game).toDto();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GameDTO getGame(Integer gameId, boolean includeSlots) throws GameszoneException {
         //
@@ -57,6 +63,9 @@ public class GameServiceImpl implements GameService {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GameDTO getGame(String gameName, boolean includeSlots) throws GameszoneException {
         //
@@ -71,6 +80,9 @@ public class GameServiceImpl implements GameService {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Page<GameDTO> searchGames(String gameName, Integer pageNo, Integer resultsPerPage, boolean includeSlots)
             throws GameszoneException {
@@ -84,6 +96,9 @@ public class GameServiceImpl implements GameService {
         return gPage;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GameDTO updateGameNameById(Integer gameId, String newGameName) throws GameszoneException {
 
@@ -103,6 +118,9 @@ public class GameServiceImpl implements GameService {
         return gameToBeUpdated.toDto();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GameDTO updateGameImageById(Integer gameId, String newGameImage) throws GameszoneException {
         //
@@ -115,6 +133,9 @@ public class GameServiceImpl implements GameService {
         return gameToBeUpdated.toDto();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addGameSlot(Integer gameId, Slot newSlot) throws GameszoneException {
         //
