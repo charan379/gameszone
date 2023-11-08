@@ -1,7 +1,5 @@
 package com.ctytech.gameszone.service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +10,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.ctytech.gameszone.dto.GameDTO;
-import com.ctytech.gameszone.dto.SlotDTO;
 import com.ctytech.gameszone.entity.Game;
 import com.ctytech.gameszone.entity.Slot;
 import com.ctytech.gameszone.exception.GameszoneException;
@@ -39,22 +36,8 @@ public class GameServiceImpl implements GameService {
         // if not exits then create new game
         Game game = new Game();
         //
-        List<Slot> slots = new ArrayList<Slot>();
-        //
         game.setGameName(gameDTO.getGameName());
         game.setImage(gameDTO.getImage());
-        // If SlotDTOs is not an Empty [] or not null then
-        if (gameDTO.getSlots() != null && !gameDTO.getSlots().isEmpty()) {
-            for (SlotDTO slotDTO : gameDTO.getSlots()) {
-                Slot slot = new Slot();
-                slot.setSlotName(slotDTO.getSlotName());
-                slot.setStartTime(slotDTO.getStartTime());
-                slot.setEndTime(slotDTO.getEndTime());
-                slots.add(slot);
-            }
-        }
-        //
-        game.setSlots(slots);
         //
         return gameRepository.save(game).toDto();
     }
