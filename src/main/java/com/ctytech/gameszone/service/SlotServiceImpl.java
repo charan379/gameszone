@@ -73,10 +73,14 @@ public class SlotServiceImpl implements SlotService {
         slot.setEndTime(newSlot.getEndTime());
         slot.setLocation(newSlot.getLocation());
         //
-        SlotDTO slotDTO = gameService.addGameSlot(gameId, slot).getSlots().stream()
-                .filter(slotDto -> slotDto.getSlotName().equals(slot.getSlotName())).findFirst().get();
+        gameService.addGameSlot(gameId, slot);
         //
-        return slotDTO;
+
+        Slot newlyAddedSlot = slotRepository.findByGameId(gameId).stream()
+                .filter(s -> s.getSlotName().equals(slot.getSlotName())).findFirst()
+                .orElseThrow(() -> new GameszoneException("SlotService.SLOT_ADDED_BUT_CANT_RETRIVE_ID"));
+
+        return newlyAddedSlot.toDto();
     }
 
     // validate slot name
