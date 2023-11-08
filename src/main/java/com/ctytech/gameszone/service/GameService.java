@@ -11,6 +11,7 @@ public interface GameService {
     /**
      * @param gameDTO
      * @return GameDTO
+     * @see GameDTO
      * @throws GameszoneException
      */
     GameDTO createNewGame(GameDTO gameDTO) throws GameszoneException;
@@ -19,6 +20,7 @@ public interface GameService {
      * @param gameId
      * @param includeSlots
      * @return GameDTO
+     * @see GameDTO
      * @throws GameszoneException
      */
     GameDTO getGame(Integer gameId, boolean includeSlots) throws GameszoneException;
@@ -27,6 +29,7 @@ public interface GameService {
      * @param gameName
      * @param includeSlots
      * @return GameDTO
+     * @see GameDTO
      * @throws GameszoneException
      */
     GameDTO getGame(String gameName, boolean includeSlots) throws GameszoneException;
@@ -37,6 +40,7 @@ public interface GameService {
      * @param resultsPerPage
      * @param includeSlots
      * @return Page<GameDTO>
+     * @see GameDTO
      * @throws GameszoneException
      */
     Page<GameDTO> searchGames(String gameName, Integer pageNo, Integer resultsPerPage, boolean includeSlots)
@@ -46,6 +50,7 @@ public interface GameService {
      * @param gameId
      * @param newGameName
      * @return GameDTO
+     * @see GameDTO
      * @throws GameszoneException
      */
     GameDTO updateGameNameById(Integer gameId, String newGameName) throws GameszoneException;
@@ -54,6 +59,7 @@ public interface GameService {
      * @param gameId
      * @param newGameImage
      * @return GameDTO
+     * @see GameDTO
      * @throws GameszoneException
      */
     GameDTO updateGameImageById(Integer gameId, String newGameImage) throws GameszoneException;

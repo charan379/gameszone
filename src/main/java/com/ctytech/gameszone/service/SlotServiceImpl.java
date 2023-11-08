@@ -25,6 +25,9 @@ public class SlotServiceImpl implements SlotService {
     @Autowired
     private GameService gameService;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<SlotDTO> getSlotsByGameId(Integer gameId) throws GameszoneException {
         //
@@ -39,6 +42,9 @@ public class SlotServiceImpl implements SlotService {
         return slotDTOs;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SlotDTO updateSlot(Integer gameId, Integer slotId, SlotDTO update) throws GameszoneException {
 
@@ -59,6 +65,9 @@ public class SlotServiceImpl implements SlotService {
         return slotToBeUpdated.toDto();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SlotDTO addSlot(Integer gameId, SlotDTO newSlot) throws GameszoneException {
 
@@ -86,7 +95,16 @@ public class SlotServiceImpl implements SlotService {
         return newlyAddedSlot.toDto();
     }
 
-    // validate slot name
+    /**
+     * validateSlotName
+     * <p>
+     * Validate's if slot name is already exists or not
+     * 
+     * @param existingSlots
+     * @param slotId
+     * @param slotName
+     * @throws GameszoneException
+     */
     private void validateSlotName(List<SlotDTO> existingSlots, Integer slotId, String slotName)
             throws GameszoneException {
 
