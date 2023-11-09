@@ -90,9 +90,10 @@ public class SlotServiceImpl implements SlotService {
                 .orElseThrow(() -> new GameszoneException("SlotService.SLOT_ADDED_BUT_CANT_RETRIVE_ID"));
 
         //
-        newlyAddedSlot.setGameId(gameId);
+        SlotDTO newlyAddedSlotDTO = newlyAddedSlot.toDto();
+        newlyAddedSlotDTO.setGameId(gameId);
         //
-        return newlyAddedSlot.toDto();
+        return newlyAddedSlotDTO;
     }
 
     /**
