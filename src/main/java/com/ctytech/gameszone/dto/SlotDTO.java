@@ -29,7 +29,7 @@ public class SlotDTO {
 
     private String location;
 
-    private Integer gameId;
+    private String gameId;
 
     public Integer getSlotId() {
         return slotId;
@@ -73,11 +73,12 @@ public class SlotDTO {
     }
 
     public Integer getGameId() {
-        return gameId;
+        return Integer.parseInt(gameId);
     }
 
     public void setGameId(Integer gameId) {
-        this.gameId = gameId;
+        this.gameId = gameId.toString();
+    
     }
 
     public LocalTime convertStringToLocalTime(String time) {
