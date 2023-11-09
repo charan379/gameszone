@@ -1,6 +1,7 @@
 package com.ctytech.gameszone.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -22,7 +23,7 @@ public class Booking {
     private LocalDate bookingDate;
 
     @NotNull
-    private LocalDate transactionDate;
+    private LocalDateTime transactionDate;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "gameId")
@@ -52,11 +53,11 @@ public class Booking {
         this.bookingDate = bookingDate;
     }
 
-    public LocalDate getTransactionDate() {
+    public LocalDateTime getTransactionDate() {
         return transactionDate;
     }
 
-    public void setTransactionDate(LocalDate transactionDate) {
+    public void setTransactionDate(LocalDateTime transactionDate) {
         this.transactionDate = transactionDate;
     }
 
@@ -84,5 +85,4 @@ public class Booking {
         this.user = user;
     }
 
-    
 }
