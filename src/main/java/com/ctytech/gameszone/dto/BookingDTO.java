@@ -7,15 +7,15 @@ public class BookingDTO {
 
     private Integer bookingId;
 
-    private LocalDate booikingDate;
+    private String bookingDate;
 
     private LocalDateTime transactionDate;
 
-    private Integer gameId;
+    private String gameId;
 
-    private Integer slotId;
+    private String slotId;
 
-    private Integer userId;
+    private String userId;
 
     private GameDTO game;
 
@@ -31,12 +31,12 @@ public class BookingDTO {
         this.bookingId = bookingId;
     }
 
-    public LocalDate getBooikingDate() {
-        return booikingDate;
+    public String getBookingDate() {
+        return bookingDate;
     }
 
-    public void setBooikingDate(LocalDate booikingDate) {
-        this.booikingDate = booikingDate;
+    public void setBookingDate(LocalDate booikingDate) {
+        this.bookingDate = booikingDate.toString();
     }
 
     public LocalDateTime getTransactionDate() {
@@ -48,27 +48,27 @@ public class BookingDTO {
     }
 
     public Integer getGameId() {
-        return gameId;
+        return Integer.parseInt(gameId);
     }
 
     public void setGameId(Integer gameId) {
-        this.gameId = gameId;
+        this.gameId = gameId.toString();
     }
 
     public Integer getSlotId() {
-        return slotId;
+        return Integer.parseInt(slotId);
     }
 
     public void setSlotId(Integer slotId) {
-        this.slotId = slotId;
+        this.slotId = slotId.toString();
     }
 
     public Integer getUserId() {
-        return userId;
+        return Integer.parseInt(userId);
     }
 
     public void setUserId(Integer userId) {
-        this.userId = userId;
+        this.userId = userId.toString();
     }
 
     public GameDTO getGame() {
@@ -100,7 +100,7 @@ public class BookingDTO {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((bookingId == null) ? 0 : bookingId.hashCode());
-        result = prime * result + ((booikingDate == null) ? 0 : booikingDate.hashCode());
+        result = prime * result + ((bookingDate == null) ? 0 : bookingDate.hashCode());
         result = prime * result + ((transactionDate == null) ? 0 : transactionDate.hashCode());
         result = prime * result + ((gameId == null) ? 0 : gameId.hashCode());
         result = prime * result + ((slotId == null) ? 0 : slotId.hashCode());
@@ -125,10 +125,10 @@ public class BookingDTO {
                 return false;
         } else if (!bookingId.equals(other.bookingId))
             return false;
-        if (booikingDate == null) {
-            if (other.booikingDate != null)
+        if (bookingDate == null) {
+            if (other.bookingDate != null)
                 return false;
-        } else if (!booikingDate.equals(other.booikingDate))
+        } else if (!bookingDate.equals(other.bookingDate))
             return false;
         if (transactionDate == null) {
             if (other.transactionDate != null)
@@ -170,11 +170,9 @@ public class BookingDTO {
 
     @Override
     public String toString() {
-        return "BookingDTO [bookingId=" + bookingId + ", booikingDate=" + booikingDate + ", transactionDate="
+        return "BookingDTO [bookingId=" + bookingId + ", booikingDate=" + bookingDate + ", transactionDate="
                 + transactionDate + ", gameId=" + gameId + ", slotId=" + slotId + ", userId=" + userId + ", game="
                 + game + ", slot=" + slot + ", user=" + user + "]";
     }
-
-    
 
 }
