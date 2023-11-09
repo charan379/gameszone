@@ -48,7 +48,8 @@ public class GameAPI {
     }
 
     @GetMapping()
-    public ResponseEntity<GameDTO> getGame(@RequestParam(required = false, name = "gameId") Integer gameId,
+    public ResponseEntity<GameDTO> getGame(
+            @RequestParam(required = false, name = "gameId") @Pattern(regexp = "^[0-9]*$", message = "{game.gameId.invalid}") String gameId,
             @RequestParam(required = false, name = "gameName") String gameName,
             @RequestParam(required = false, name = "include", defaultValue = "") List<String> include)
             throws GameszoneException {
@@ -56,7 +57,7 @@ public class GameAPI {
         GameDTO gameDTO = new GameDTO();
 
         if (gameId != null) {
-            gameDTO = gameService.getGame(gameId, include.contains("slots"));
+            gameDTO = gameService.getGame(Integer.parseInt(gameId), include.contains("slots"));
         } else if (gameName != null) {
             gameDTO = gameService.getGame(gameName, include.contains("slots"));
         } else {
