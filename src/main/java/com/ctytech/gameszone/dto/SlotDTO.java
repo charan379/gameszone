@@ -73,12 +73,12 @@ public class SlotDTO {
     }
 
     public Integer getGameId() {
-        return Integer.parseInt(gameId);
+        return (gameId == null) ? null : Integer.parseInt(gameId);
     }
 
     public void setGameId(Integer gameId) {
-        this.gameId = gameId.toString();
-    
+        this.gameId = (gameId == null) ? null : gameId.toString();
+
     }
 
     public LocalTime convertStringToLocalTime(String time) {
