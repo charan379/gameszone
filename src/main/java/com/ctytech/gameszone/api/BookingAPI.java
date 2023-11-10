@@ -1,5 +1,6 @@
 package com.ctytech.gameszone.api;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ctytech.gameszone.dto.BookingDTO;
 import com.ctytech.gameszone.exception.GameszoneException;
+import com.ctytech.gameszone.service.BookingService;
 
 import jakarta.validation.Valid;
 
@@ -18,10 +20,14 @@ import jakarta.validation.Valid;
 @RequestMapping(value = "/booking")
 public class BookingAPI {
 
+    @Autowired
+    private BookingService bookingService;
+
     @PostMapping()
     public ResponseEntity<BookingDTO> bookSlot(@RequestBody @Valid BookingDTO bookingDTO) throws GameszoneException {
 
-        System.out.println(bookingDTO);
-        return new ResponseEntity<BookingDTO>(bookingDTO, HttpStatus.CREATED);
+        BookingDTO newBookingDTO = bookingService.createNewBooking(bookingDTO);
+
+        return new ResponseEntity<BookingDTO>(newBookingDTO, HttpStatus.CREATED);
     }
 }
