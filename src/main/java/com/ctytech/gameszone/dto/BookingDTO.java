@@ -3,19 +3,33 @@ package com.ctytech.gameszone.dto;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotNull;
+
 public class BookingDTO {
 
     private Integer bookingId;
 
-    private String bookingDate;
+    @NotNull(message = "{booking.bookingdate.absent}")
+    @FutureOrPresent(message = "{booking.bookingdate.past}")
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate bookingDate;
 
     private LocalDateTime transactionDate;
 
-    private String gameId;
+    @NotNull(message = "{booking.gameid.absent}")
+    private Integer gameId;
 
-    private String slotId;
+    @NotNull(message = "{booking.slotid.absent}")
+    private Integer slotId;
 
-    private String userId;
+    @NotNull(message = "{booking.userid.absent}")
+    private Integer userId;
 
     private GameDTO game;
 
@@ -31,12 +45,12 @@ public class BookingDTO {
         this.bookingId = bookingId;
     }
 
-    public String getBookingDate() {
+    public LocalDate getBookingDate() {
         return bookingDate;
     }
 
-    public void setBookingDate(LocalDate booikingDate) {
-        this.bookingDate = booikingDate.toString();
+    public void setBookingDate(LocalDate bookingDate) {
+        this.bookingDate = bookingDate;
     }
 
     public LocalDateTime getTransactionDate() {
@@ -48,27 +62,27 @@ public class BookingDTO {
     }
 
     public Integer getGameId() {
-        return Integer.parseInt(gameId);
+        return gameId;
     }
 
     public void setGameId(Integer gameId) {
-        this.gameId = gameId.toString();
+        this.gameId = gameId;
     }
 
     public Integer getSlotId() {
-        return Integer.parseInt(slotId);
+        return slotId;
     }
 
     public void setSlotId(Integer slotId) {
-        this.slotId = slotId.toString();
+        this.slotId = slotId;
     }
 
     public Integer getUserId() {
-        return Integer.parseInt(userId);
+        return userId;
     }
 
     public void setUserId(Integer userId) {
-        this.userId = userId.toString();
+        this.userId = userId;
     }
 
     public GameDTO getGame() {
@@ -96,81 +110,8 @@ public class BookingDTO {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((bookingId == null) ? 0 : bookingId.hashCode());
-        result = prime * result + ((bookingDate == null) ? 0 : bookingDate.hashCode());
-        result = prime * result + ((transactionDate == null) ? 0 : transactionDate.hashCode());
-        result = prime * result + ((gameId == null) ? 0 : gameId.hashCode());
-        result = prime * result + ((slotId == null) ? 0 : slotId.hashCode());
-        result = prime * result + ((userId == null) ? 0 : userId.hashCode());
-        result = prime * result + ((game == null) ? 0 : game.hashCode());
-        result = prime * result + ((slot == null) ? 0 : slot.hashCode());
-        result = prime * result + ((user == null) ? 0 : user.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        BookingDTO other = (BookingDTO) obj;
-        if (bookingId == null) {
-            if (other.bookingId != null)
-                return false;
-        } else if (!bookingId.equals(other.bookingId))
-            return false;
-        if (bookingDate == null) {
-            if (other.bookingDate != null)
-                return false;
-        } else if (!bookingDate.equals(other.bookingDate))
-            return false;
-        if (transactionDate == null) {
-            if (other.transactionDate != null)
-                return false;
-        } else if (!transactionDate.equals(other.transactionDate))
-            return false;
-        if (gameId == null) {
-            if (other.gameId != null)
-                return false;
-        } else if (!gameId.equals(other.gameId))
-            return false;
-        if (slotId == null) {
-            if (other.slotId != null)
-                return false;
-        } else if (!slotId.equals(other.slotId))
-            return false;
-        if (userId == null) {
-            if (other.userId != null)
-                return false;
-        } else if (!userId.equals(other.userId))
-            return false;
-        if (game == null) {
-            if (other.game != null)
-                return false;
-        } else if (!game.equals(other.game))
-            return false;
-        if (slot == null) {
-            if (other.slot != null)
-                return false;
-        } else if (!slot.equals(other.slot))
-            return false;
-        if (user == null) {
-            if (other.user != null)
-                return false;
-        } else if (!user.equals(other.user))
-            return false;
-        return true;
-    }
-
-    @Override
     public String toString() {
-        return "BookingDTO [bookingId=" + bookingId + ", booikingDate=" + bookingDate + ", transactionDate="
+        return "BookingDTO [bookingId=" + bookingId + ", bookingDate=" + bookingDate + ", transactionDate="
                 + transactionDate + ", gameId=" + gameId + ", slotId=" + slotId + ", userId=" + userId + ", game="
                 + game + ", slot=" + slot + ", user=" + user + "]";
     }
