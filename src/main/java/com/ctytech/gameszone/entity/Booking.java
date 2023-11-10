@@ -3,6 +3,8 @@ package com.ctytech.gameszone.entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.ctytech.gameszone.dto.BookingDTO;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -86,4 +88,21 @@ public class Booking {
         this.user = user;
     }
 
+    public BookingDTO tDto() {
+
+        BookingDTO bookingDTO = new BookingDTO();
+
+        bookingDTO.setBookingId(bookingId);
+        bookingDTO.setBookingDate(bookingDate);
+        bookingDTO.setTransactionDate(transactionDate);
+        bookingDTO.setGameId(game.getGameId());
+        bookingDTO.setSlotId(slot.getSlotId());
+        bookingDTO.setUserId(user.getUserId());
+        bookingDTO.setGame(game.toDto());
+        bookingDTO.setSlot(slot.toDto());
+        bookingDTO.setUser(user.toDto());
+
+        return bookingDTO;
+
+    }
 }
