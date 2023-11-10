@@ -6,14 +6,13 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ctytech.gameszone.dto.GameDTO;
 import com.ctytech.gameszone.dto.SlotDTO;
 import com.ctytech.gameszone.entity.Slot;
 import com.ctytech.gameszone.exception.GameszoneException;
 import com.ctytech.gameszone.repository.SlotRepository;
-
-import jakarta.transaction.Transactional;
 
 @Service(value = "slotService")
 @Transactional

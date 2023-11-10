@@ -8,14 +8,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ctytech.gameszone.dto.GameDTO;
 import com.ctytech.gameszone.entity.Game;
 import com.ctytech.gameszone.entity.Slot;
 import com.ctytech.gameszone.exception.GameszoneException;
 import com.ctytech.gameszone.repository.GameRepository;
-
-import jakarta.transaction.Transactional;
 
 @Service(value = "gameService")
 @Transactional
