@@ -31,6 +31,15 @@ public class SlotDTO {
 
     private String gameId;
 
+    public void setAll(SlotDTO slot) {
+        setSlotId(slot.getSlotId());
+        setSlotName(slot.getSlotName());
+        setStartTime(slot.getStartTime().toString());
+        setEndTime(slot.getEndTime().toString());
+        setLocation(slot.getLocation());
+        setGameId(slot.getGameId());
+    }
+
     public Integer getSlotId() {
         return slotId;
     }
