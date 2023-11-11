@@ -37,6 +37,16 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public BookingDTO createNewBooking(BookingDTO bookingDTO) throws GameszoneException {
 
+        // check if the slot of booking game is already booked on required day or not
+        Optional<Booking> alreadyBooked = bookingRepository
+                .findByBookingDateAndGameIdAndSlotId(bookingDTO.getBookingDate(), bookingDTO.getGameId(),
+                        bookingDTO.getSlotId());
+
+        // if already booked throw error
+        if (alreadyBooked.isPresent())
+            throw new GameszoneException("BookingService.SLOT_ALREADY_BOOKED");
+
+        // if not then book slot
         Booking booking = new Booking();
 
         Optional<Game> game = gameRepository.findById(bookingDTO.getGameId());
