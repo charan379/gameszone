@@ -2,6 +2,8 @@ package com.ctytech.gameszone.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ctytech.gameszone.dto.BookingDTO;
+import com.ctytech.gameszone.dto.GameDTO;
 import com.ctytech.gameszone.dto.SlotDTO;
 import com.ctytech.gameszone.entity.Booking;
 import com.ctytech.gameszone.entity.Game;
@@ -90,6 +93,29 @@ public class BookingServiceImpl implements BookingService {
                 forDate);
 
         return slotAvailabilityRecord;
+    }
+
+    @Override
+    public List<SlotAvailabilityRecord> fetchGameSlotsWithAvailabilityStatus(Integer gameId, LocalDate forDate)
+            throws GameszoneException {
+
+        GameDTO gameDTO = gameRepository.findById(gameId)
+                .orElseThrow(() -> new GameszoneException("BookingService.GAME_NOT_FOUND")).toDto(true);
+
+        List<SlotAvailabilityRecord> slotsWithAvailabilityStatus = new ArrayList<SlotAvailabilityRecord>();
+
+        if (gameDTO.getSlots() != null && !gameDTO.getSlots().isEmpty())
+            for (SlotDTO slotDTO : gameDTO.getSlots()) {
+                try {
+                    SlotAvailabilityRecord slotAvailabilityRecord = fetchSlotAvailability(slotDTO.getSlotId(), gameId,
+                            forDate);
+                    slotsWithAvailabilityStatus.add(slotAvailabilityRecord);
+                } catch (Exception e) {
+                    continue;
+                }
+            }
+
+        return slotsWithAvailabilityStatus;
     }
 
 }
