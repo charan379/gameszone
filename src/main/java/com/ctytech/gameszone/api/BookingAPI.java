@@ -2,12 +2,14 @@ package com.ctytech.gameszone.api;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,5 +54,21 @@ public class BookingAPI {
                 Integer.parseInt(gameId), LocalDate.parse(forDate, dateTimeFormatter));
 
         return new ResponseEntity<SlotAvailabilityRecord>(slotAvailabilityRecord, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/game/{gameId}/slots/availability")
+    public ResponseEntity<List<SlotAvailabilityRecord>> getSlotsAvailabilty(
+            @RequestParam(name = "forDate") @NotNull(message = "{booking.bookingdate.absent}") @Pattern(regexp = "(?:[0-9]{1,2})-(0[1-9]|1[012])-(20)\\d{2}", message = "{booking.fordate.invalid}") String forDate,
+            @PathVariable(name = "gameId") @Pattern(regexp = "^[0-9]*$", message = "{game.gameId.invalid}") String gameId)
+            throws GameszoneException {
+
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        List<SlotAvailabilityRecord> listOfSlotAvailabilityRecords = bookingService
+                .fetchGameSlotsWithAvailabilityStatus(Integer.parseInt(gameId),
+                        LocalDate.parse(forDate, dateTimeFormatter));
+
+        return new ResponseEntity<List<SlotAvailabilityRecord>>(listOfSlotAvailabilityRecords, HttpStatus.OK);
+
     }
 }
