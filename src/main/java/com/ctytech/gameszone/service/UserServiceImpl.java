@@ -3,7 +3,7 @@ package com.ctytech.gameszone.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ctytech.gameszone.dto.UserDTO;
@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public String registerNewUser(UserDTO userDTO) throws GameszoneException {
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         //
         user.setUserName(userDTO.getUserName());
-        user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setEmail(userDTO.getEmail());
         //
         // create newUser
