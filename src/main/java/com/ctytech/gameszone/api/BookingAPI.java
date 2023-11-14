@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,6 +58,7 @@ public class BookingAPI {
     }
 
     @GetMapping(value = "/game/{gameId}/slots/availability")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_EMP')")
     public ResponseEntity<List<SlotAvailabilityRecord>> getSlotsAvailabilty(
             @RequestParam(name = "forDate") @NotNull(message = "{booking.bookingdate.absent}") @Pattern(regexp = "(?:[0-9]{1,2})-(0[1-9]|1[012])-(20)\\d{2}", message = "{booking.fordate.invalid}") String forDate,
             @PathVariable(name = "gameId") @Pattern(regexp = "^[0-9]*$", message = "{game.gameId.invalid}") String gameId)
