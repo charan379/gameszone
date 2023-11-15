@@ -22,14 +22,15 @@ public class SecurityConfig {
     PasswordEncoder passwordEncoder;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated()).formLogin();
-
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
+                .formLogin(formLogin -> formLogin.permitAll());
         return http.build();
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
+    UserDetailsService userDetailsService() {
         UserDetails user = User.builder().username("Peta").password(this.passwordEncoder.encode("Peta@321"))
                 .roles("USER")
                 .build();
