@@ -1,14 +1,19 @@
 package com.ctytech.gameszone.service;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.ctytech.gameszone.constants.UserStatus;
 import com.ctytech.gameszone.dto.UserDTO;
+import com.ctytech.gameszone.entity.Role;
 import com.ctytech.gameszone.entity.User;
 import com.ctytech.gameszone.exception.GameszoneException;
+import com.ctytech.gameszone.repository.RoleRepository;
 import com.ctytech.gameszone.repository.UserRepository;
 
 @Service(value = "userService")
@@ -16,6 +21,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -37,10 +45,15 @@ public class UserServiceImpl implements UserService {
 
         // if user not exits then create new user
         User user = new User();
+        Set<Role> roles = new HashSet<Role>();
+        roles.add(
+                roleRepository.findByRoleName("USER").orElseThrow(() -> new GameszoneException("Role Not Found")));
         //
         user.setUserName(userDTO.getUserName());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setEmail(userDTO.getEmail());
+        user.setStatus(UserStatus.ACTIVE);
+        user.setRoles(roles);
         //
         // create newUser
         User newUser = userRepository.save(user);
