@@ -40,6 +40,7 @@ public class User {
     private String email;
 
     @NotNull
+    @Column(columnDefinition = "ENUM('ACTIVE', 'INACTIVE', 'SUSPENDED','DELETED')")
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
