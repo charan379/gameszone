@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.ctytech.gameszone.constants.UserStatus;
 import com.ctytech.gameszone.dto.UserDTO;
 import com.ctytech.gameszone.entity.Role;
 import com.ctytech.gameszone.entity.User;
@@ -52,7 +51,7 @@ public class UserServiceImpl implements UserService {
         user.setUserName(userDTO.getUserName());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setEmail(userDTO.getEmail());
-        user.setStatus(UserStatus.ACTIVE);
+        user.setStatus(userDTO.getStatus());
         user.setRoles(roles);
         //
         // create newUser
