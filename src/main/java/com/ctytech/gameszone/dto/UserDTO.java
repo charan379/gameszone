@@ -1,5 +1,10 @@
 package com.ctytech.gameszone.dto;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import com.ctytech.gameszone.constants.UserStatus;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -24,6 +29,28 @@ public class UserDTO {
     @NotNull(message = "{user.email.absent}")
     @Email(message = "{user.email.format.invalid}")
     private String email;
+
+    @NotNull
+    @Pattern(regexp = "^(ACTIVE|INACTIVE|DELETED)$")
+    private UserStatus status;
+
+    private Set<RoleDTO> roles = new HashSet<>();
+
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
+    }
+
+    public Set<RoleDTO> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<RoleDTO> roles) {
+        this.roles = roles;
+    }
 
     public Integer getUserId() {
         return userId;
@@ -65,6 +92,8 @@ public class UserDTO {
         result = prime * result + ((userName == null) ? 0 : userName.hashCode());
         result = prime * result + ((password == null) ? 0 : password.hashCode());
         result = prime * result + ((email == null) ? 0 : email.hashCode());
+        result = prime * result + ((status == null) ? 0 : status.hashCode());
+        result = prime * result + ((roles == null) ? 0 : roles.hashCode());
         return result;
     }
 
@@ -97,13 +126,20 @@ public class UserDTO {
                 return false;
         } else if (!email.equals(other.email))
             return false;
+        if (status != other.status)
+            return false;
+        if (roles == null) {
+            if (other.roles != null)
+                return false;
+        } else if (!roles.equals(other.roles))
+            return false;
         return true;
     }
 
     @Override
     public String toString() {
         return "UserDTO [userId=" + userId + ", userName=" + userName + ", password=" + password + ", email=" + email
-                + "]";
+                + ", status=" + status + ", roles=" + roles + "]";
     }
 
 }

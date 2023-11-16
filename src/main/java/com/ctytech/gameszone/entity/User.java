@@ -1,12 +1,22 @@
 package com.ctytech.gameszone.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import com.ctytech.gameszone.constants.UserStatus;
+import com.ctytech.gameszone.dto.RoleDTO;
 import com.ctytech.gameszone.dto.UserDTO;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -27,8 +37,33 @@ public class User {
     @Column(unique = true)
     private String email;
 
+    @NotNull
+    private UserStatus status;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "authorities", joinColumns = {
+            @JoinColumn(name = "userId", referencedColumnName = "userId") }, inverseJoinColumns = {
+                    @JoinColumn(name = "role_id", referencedColumnName = "roleId") })
+    private Set<Role> roles = new HashSet<>();
+
     public Integer getUserId() {
         return userId;
+    }
+
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public void setUserId(Integer userId) {
@@ -67,6 +102,15 @@ public class User {
         userDTO.setUserName(this.userName);
         userDTO.setPassword(this.password);
         userDTO.setEmail(this.email);
+        userDTO.setStatus(status);
+
+        Set<RoleDTO> roleDTOs = new HashSet<RoleDTO>();
+
+        if (roles != null)
+            for (Role role : roles) {
+                roleDTOs.add(role.toDto());
+            }
+        userDTO.setRoles(roleDTOs);
 
         return userDTO;
     }
@@ -74,7 +118,7 @@ public class User {
     @Override
     public String toString() {
         return "User [userId=" + userId + ", userName=" + userName + ", password=" + password + ", email=" + email
-                + "]";
+                + ", status=" + status + ", roles=" + roles + "]";
     }
 
 }
