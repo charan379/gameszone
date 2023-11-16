@@ -31,7 +31,7 @@ public class UserDTO {
     private String email;
 
     @NotNull
-    @Pattern(regexp = "^(ACTIVE|INACTIVE|DELETED)$")
+    // @Pattern(regexp = "^(ACTIVE|INACTIVE|DELETED)$")
     private UserStatus status;
 
     private Set<RoleDTO> roles = new HashSet<>();
