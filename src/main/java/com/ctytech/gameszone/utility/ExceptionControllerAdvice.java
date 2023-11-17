@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.ctytech.gameszone.exception.GameszoneException;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.ConstraintViolationException;
 
 @RestControllerAdvice
@@ -69,5 +71,21 @@ public class ExceptionControllerAdvice {
         error.setTimestamp(LocalDateTime.now());
         //
         return new ResponseEntity<ErrorInfo>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ErrorInfo> handleAuthenticationException(AuthenticationException ex,
+            HttpServletResponse response) {
+        //
+        ErrorInfo error = new ErrorInfo();
+
+        System.out.println(ex);
+
+        error.setErrorCode(HttpStatus.UNAUTHORIZED.value());
+        error.setErrorMessage(ex.getMessage());
+        error.setTimestamp(LocalDateTime.now());
+
+        //
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
 }

@@ -32,7 +32,7 @@ public class CustomUserDetails implements UserDetails {
             for (RoleDTO role : roles) {
                 userAuthorities.add(new SimpleGrantedAuthority(String.format("ROLE_%s", role.getRoleName())));
             }
-        System.out.println(userAuthorities);
+
         return userAuthorities;
     }
 
