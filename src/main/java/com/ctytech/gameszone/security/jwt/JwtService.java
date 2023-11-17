@@ -50,10 +50,12 @@ public class JwtService {
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
 
         return Jwts.builder()
+                .header().type("JWT")
+                .and()
                 .claims(extraClaims)
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() * 1000 * 60 * 24 * 30))
+                .expiration(new Date(System.currentTimeMillis() + (((3600L * 24L) * 30L) * 1000L)))
                 .signWith(getSignInKey(), Jwts.SIG.HS256)
                 .encodePayload(true)
                 .compact();
