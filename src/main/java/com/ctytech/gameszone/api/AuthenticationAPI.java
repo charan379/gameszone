@@ -32,6 +32,7 @@ public class AuthenticationAPI {
     @Autowired
     private JwtService jwtService;
 
+    @Autowired
     private UserDetailsService userDetailsService;
 
     @PostMapping(value = "/generate-token")
