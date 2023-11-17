@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -79,7 +80,19 @@ public class ExceptionControllerAdvice {
         //
         ErrorInfo error = new ErrorInfo();
 
-        System.out.println(ex);
+        error.setErrorCode(HttpStatus.UNAUTHORIZED.value());
+        error.setErrorMessage(ex.getMessage());
+        error.setTimestamp(LocalDateTime.now());
+
+        //
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorInfo> handleAccessDeniedException(AccessDeniedException ex,
+            HttpServletResponse response) {
+        //
+        ErrorInfo error = new ErrorInfo();
 
         error.setErrorCode(HttpStatus.UNAUTHORIZED.value());
         error.setErrorMessage(ex.getMessage());
