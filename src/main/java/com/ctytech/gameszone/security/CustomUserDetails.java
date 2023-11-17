@@ -1,4 +1,4 @@
-package com.ctytech.gameszone.utility;
+package com.ctytech.gameszone.security;
 
 import java.util.ArrayList;
 import java.util.Collection;

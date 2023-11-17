@@ -1,4 +1,4 @@
-package com.ctytech.gameszone.service;
+package com.ctytech.gameszone.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import com.ctytech.gameszone.entity.User;
 import com.ctytech.gameszone.repository.UserRepository;
-import com.ctytech.gameszone.utility.CustomUserDetails;
 
 @Component(value = "userDetailsService")
 public class CustomUserDetailsServiceImpl implements UserDetailsService {
