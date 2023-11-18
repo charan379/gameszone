@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ctytech.gameszone.constants.BookingStatus;
 import com.ctytech.gameszone.dto.BookingDTO;
 import com.ctytech.gameszone.dto.GameDTO;
 import com.ctytech.gameszone.dto.SlotDTO;
@@ -63,6 +64,7 @@ public class BookingServiceImpl implements BookingService {
 
         booking.setForDate(bookingDTO.getForDate());
         booking.setTransactionDate(LocalDateTime.now());
+        booking.setBookingStatus(BookingStatus.REQUESTED);
         booking.setGame(game.orElseThrow(() -> new GameszoneException("GameService.GAME_NOT_FOUND")));
         booking.setSlot(slot.orElseThrow(() -> new GameszoneException("SlotService.SLOT_NOT_FOUND")));
         booking.setUser(user.orElseThrow(() -> new GameszoneException("UserService.USER_NOT_FOUND")));
@@ -74,7 +76,9 @@ public class BookingServiceImpl implements BookingService {
     public SlotAvailabilityRecord fetchSlotAvailability(Integer slotId, Integer gameId, LocalDate forDate)
             throws GameszoneException {
 
-        Optional<Booking> isSlotBooked = bookingRepository
+        boolean isSlotBooked;
+
+        Optional<Booking> booking = bookingRepository
                 .findByBookingDateAndGameIdAndSlotId(forDate, gameId, slotId);
 
         SlotDTO slot = new SlotDTO();
@@ -88,8 +92,15 @@ public class BookingServiceImpl implements BookingService {
 
         }
 
+        isSlotBooked = booking.isPresent() && new ArrayList<BookingStatus>() {
+            {
+                add(BookingStatus.APPROVED);
+                add(BookingStatus.REQUESTED);
+            }
+        }.contains(booking.get().getBookingStatus());
+
         // availability
-        SlotAvailabilityRecord slotAvailabilityRecord = new SlotAvailabilityRecord(slot, isSlotBooked.isPresent(),
+        SlotAvailabilityRecord slotAvailabilityRecord = new SlotAvailabilityRecord(slot, isSlotBooked,
                 forDate);
 
         return slotAvailabilityRecord;

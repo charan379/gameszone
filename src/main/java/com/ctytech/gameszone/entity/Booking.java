@@ -3,10 +3,14 @@ package com.ctytech.gameszone.entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.ctytech.gameszone.constants.BookingStatus;
 import com.ctytech.gameszone.dto.BookingDTO;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,6 +33,11 @@ public class Booking {
 
     @NotNull
     private LocalDateTime transactionDate;
+
+    @NotNull
+    @Column(columnDefinition = "ENUM('APPROVED', 'REQUESTED','REJECTED','CANCELLED') default 'REQUESTED'")
+    @Enumerated(EnumType.STRING)
+    private BookingStatus bookingStatus;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "gameId")
@@ -66,6 +75,14 @@ public class Booking {
         this.transactionDate = transactionDate;
     }
 
+    public BookingStatus getBookingStatus() {
+        return bookingStatus;
+    }
+
+    public void setBookingStatus(BookingStatus bookingStatus) {
+        this.bookingStatus = bookingStatus;
+    }
+
     public Game getGame() {
         return game;
     }
@@ -97,6 +114,7 @@ public class Booking {
         bookingDTO.setBookingId(bookingId);
         bookingDTO.setForDate(forDate);
         bookingDTO.setTransactionDate(transactionDate);
+        bookingDTO.setBookingStatus(bookingStatus);
         bookingDTO.setGameId(game.getGameId());
         bookingDTO.setSlotId(slot.getSlotId());
         bookingDTO.setUserId(user.getUserId());

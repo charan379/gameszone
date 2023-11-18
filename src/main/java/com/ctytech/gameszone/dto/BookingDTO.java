@@ -3,6 +3,7 @@ package com.ctytech.gameszone.dto;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.ctytech.gameszone.constants.BookingStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Temporal;
@@ -21,6 +22,8 @@ public class BookingDTO {
     private LocalDate forDate;
 
     private LocalDateTime transactionDate;
+
+    private BookingStatus bookingStatus;
 
     @NotNull(message = "{booking.gameid.absent}")
     private Integer gameId;
@@ -59,6 +62,14 @@ public class BookingDTO {
 
     public void setTransactionDate(LocalDateTime transactionDate) {
         this.transactionDate = transactionDate;
+    }
+
+    public BookingStatus getBookingStatus() {
+        return bookingStatus;
+    }
+
+    public void setBookingStatus(BookingStatus bookingStatus) {
+        this.bookingStatus = bookingStatus;
     }
 
     public Integer getGameId() {
@@ -111,9 +122,9 @@ public class BookingDTO {
 
     @Override
     public String toString() {
-        return "BookingDTO [bookingId=" + bookingId + ", forDate=" + forDate + ", transactionDate="
-                + transactionDate + ", gameId=" + gameId + ", slotId=" + slotId + ", userId=" + userId + ", game="
-                + game + ", slot=" + slot + ", user=" + user + "]";
+        return "BookingDTO [bookingId=" + bookingId + ", forDate=" + forDate + ", transactionDate=" + transactionDate
+                + ", bookingStatus=" + bookingStatus + ", gameId=" + gameId + ", slotId=" + slotId + ", userId="
+                + userId + ", game=" + game + ", slot=" + slot + ", user=" + user + "]";
     }
 
 }
