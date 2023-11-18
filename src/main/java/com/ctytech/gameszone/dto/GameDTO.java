@@ -2,6 +2,8 @@ package com.ctytech.gameszone.dto;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -41,6 +43,7 @@ public class GameDTO {
         this.image = image;
     }
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public List<SlotDTO> getSlots() {
         return slots;
     }
@@ -54,5 +57,4 @@ public class GameDTO {
         return "GameDTO [gameId=" + gameId + ", gameName=" + gameName + ", image=" + image + ", slots=" + slots + "]";
     }
 
-    
 }
