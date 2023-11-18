@@ -46,7 +46,7 @@ public class BookingServiceImpl implements BookingService {
         // check if the slot of booking game is already booked on required day or not
         // fetch slotAvailabilityRecord
         SlotAvailabilityRecord slotAvailabilityRecord = fetchSlotAvailability(bookingDTO.getSlotId(),
-                bookingDTO.getGameId(), bookingDTO.getBookingDate());
+                bookingDTO.getGameId(), bookingDTO.getForDate());
 
         // if already booked throw error
         if (slotAvailabilityRecord.isBooked())
@@ -61,7 +61,7 @@ public class BookingServiceImpl implements BookingService {
 
         Optional<User> user = userRepository.findByUserIdWithOutPassword(bookingDTO.getUserId());
 
-        booking.setBookingDate(bookingDTO.getBookingDate());
+        booking.setForDate(bookingDTO.getForDate());
         booking.setTransactionDate(LocalDateTime.now());
         booking.setGame(game.orElseThrow(() -> new GameszoneException("GameService.GAME_NOT_FOUND")));
         booking.setSlot(slot.orElseThrow(() -> new GameszoneException("SlotService.SLOT_NOT_FOUND")));

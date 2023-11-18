@@ -25,7 +25,7 @@ public class Booking {
     private Integer bookingId;
 
     @NotNull
-    private LocalDate bookingDate;
+    private LocalDate forDate;
 
     @NotNull
     private LocalDateTime transactionDate;
@@ -50,12 +50,12 @@ public class Booking {
         this.bookingId = bookingId;
     }
 
-    public LocalDate getBookingDate() {
-        return bookingDate;
+    public LocalDate getForDate() {
+        return forDate;
     }
 
-    public void setBookingDate(LocalDate bookingDate) {
-        this.bookingDate = bookingDate;
+    public void setForDate(LocalDate bookingDate) {
+        this.forDate = bookingDate;
     }
 
     public LocalDateTime getTransactionDate() {
@@ -95,7 +95,7 @@ public class Booking {
         BookingDTO bookingDTO = new BookingDTO();
 
         bookingDTO.setBookingId(bookingId);
-        bookingDTO.setBookingDate(bookingDate);
+        bookingDTO.setForDate(forDate);
         bookingDTO.setTransactionDate(transactionDate);
         bookingDTO.setGameId(game.getGameId());
         bookingDTO.setSlotId(slot.getSlotId());

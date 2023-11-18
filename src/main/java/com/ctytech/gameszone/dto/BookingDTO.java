@@ -18,7 +18,7 @@ public class BookingDTO {
     @FutureOrPresent(message = "{booking.bookingdate.past}")
     @Temporal(TemporalType.DATE)
     @JsonFormat(pattern = "dd-MM-yyyy")
-    private LocalDate bookingDate;
+    private LocalDate forDate;
 
     private LocalDateTime transactionDate;
 
@@ -45,12 +45,12 @@ public class BookingDTO {
         this.bookingId = bookingId;
     }
 
-    public LocalDate getBookingDate() {
-        return bookingDate;
+    public LocalDate getForDate() {
+        return forDate;
     }
 
-    public void setBookingDate(LocalDate bookingDate) {
-        this.bookingDate = bookingDate;
+    public void setForDate(LocalDate bookingDate) {
+        this.forDate = bookingDate;
     }
 
     public LocalDateTime getTransactionDate() {
@@ -111,7 +111,7 @@ public class BookingDTO {
 
     @Override
     public String toString() {
-        return "BookingDTO [bookingId=" + bookingId + ", bookingDate=" + bookingDate + ", transactionDate="
+        return "BookingDTO [bookingId=" + bookingId + ", forDate=" + forDate + ", transactionDate="
                 + transactionDate + ", gameId=" + gameId + ", slotId=" + slotId + ", userId=" + userId + ", game="
                 + game + ", slot=" + slot + ", user=" + user + "]";
     }
