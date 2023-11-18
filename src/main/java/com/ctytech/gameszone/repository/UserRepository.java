@@ -14,6 +14,6 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 
     Optional<User> findByUserName(String userName);
 
-    @Query(value = "SELECT user_id, user_name, email, null AS password FROM User u WHERE u.user_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT user_id, user_name, email, null AS password, status FROM users u WHERE u.user_id = ?1", nativeQuery = true)
     Optional<User> findByUserIdWithOutPassword(Integer userId);
 }
