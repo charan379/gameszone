@@ -46,7 +46,8 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         Set<Role> roles = new HashSet<Role>();
         roles.add(
-                roleRepository.findByRoleName("USER").orElseThrow(() -> new GameszoneException("Role Not Found")));
+                roleRepository.findByRoleName("USER")
+                        .orElseThrow(() -> new GameszoneException("UserService.INVALID_ROLE")));
         //
         user.setUserName(userDTO.getUserName());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
