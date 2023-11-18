@@ -76,10 +76,11 @@ public class BookingServiceImpl implements BookingService {
     public SlotAvailabilityRecord fetchSlotAvailability(Integer slotId, Integer gameId, LocalDate forDate)
             throws GameszoneException {
 
-        boolean isSlotBooked;
-
         Optional<Booking> booking = bookingRepository
-                .findByBookingDateAndGameIdAndSlotId(forDate, gameId, slotId);
+                .findByDateGameIdSlotIdBooked(
+                        forDate,
+                        gameId,
+                        slotId);
 
         SlotDTO slot = new SlotDTO();
 
@@ -92,15 +93,8 @@ public class BookingServiceImpl implements BookingService {
 
         }
 
-        isSlotBooked = booking.isPresent() && new ArrayList<BookingStatus>() {
-            {
-                add(BookingStatus.APPROVED);
-                add(BookingStatus.REQUESTED);
-            }
-        }.contains(booking.get().getBookingStatus());
-
         // availability
-        SlotAvailabilityRecord slotAvailabilityRecord = new SlotAvailabilityRecord(slot, isSlotBooked,
+        SlotAvailabilityRecord slotAvailabilityRecord = new SlotAvailabilityRecord(slot, booking.isPresent(),
                 forDate);
 
         return slotAvailabilityRecord;
