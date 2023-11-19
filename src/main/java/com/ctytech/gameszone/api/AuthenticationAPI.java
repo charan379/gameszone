@@ -3,10 +3,6 @@ package com.ctytech.gameszone.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ctytech.gameszone.api.requests.AuthRequest;
 import com.ctytech.gameszone.api.responses.AuthResponse;
 import com.ctytech.gameszone.exception.GameszoneException;
-import com.ctytech.gameszone.security.jwt.JwtService;
+import com.ctytech.gameszone.service.AuthenticationService;
 
 import jakarta.validation.Valid;
 
@@ -26,29 +22,21 @@ import jakarta.validation.Valid;
 @RequestMapping(value = "/auth")
 public class AuthenticationAPI {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+        @Autowired
+        private AuthenticationService authenticationService;
 
-    @Autowired
-    private JwtService jwtService;
+        @PostMapping(value = "/generate-token")
+        public ResponseEntity<AuthResponse> generateToken(@RequestBody @Valid AuthRequest authRequest)
+                        throws Exception, GameszoneException, UsernameNotFoundException {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+                String accessToken = authenticationService.authenticate(authRequest.getUserName(),
+                                authRequest.getPassword());
 
-    @PostMapping(value = "/generate-token")
-    public ResponseEntity<AuthResponse> generateToken(@RequestBody @Valid AuthRequest authRequest)
-            throws Exception, GameszoneException, UsernameNotFoundException {
+                AuthResponse authResponse = new AuthResponse(authRequest.getUserName(), accessToken);
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword()));
+                return new ResponseEntity<AuthResponse>(authResponse,
+                                HttpStatus.OK);
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUserName());
-        //
-        String accessToken = jwtService.generateToken(userDetails);
-
-        return new ResponseEntity<AuthResponse>(new AuthResponse(userDetails.getUsername(), accessToken),
-                HttpStatus.OK);
-
-    }
+        }
 
 }
