@@ -42,6 +42,7 @@ public class GameAPI {
     private SlotService slotService;
 
     @PostMapping(value = "/add")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<GameDTO> postNewGame(@RequestBody @Valid GameDTO gameDTO) throws GameszoneException {
 
         GameDTO newGame = gameService.createNewGame(gameDTO);
@@ -84,6 +85,7 @@ public class GameAPI {
     }
 
     @PutMapping(value = "/update/{gameId}/name/{newGameName}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<GameDTO> updateGameName(
             @PathVariable(name = "gameId") @Pattern(regexp = "^[0-9]*$", message = "{game.gameId.invalid}") String gameId,
             @PathVariable(name = "newGameName") @NotNull(message = "{game.gamename.absent}") @Size(max = 25, min = 3, message = "{game.gamename.invalid}") String newGameName)
@@ -96,6 +98,7 @@ public class GameAPI {
     }
 
     @PutMapping(value = "/update/{gameId}/image")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<GameDTO> updateGameImage(
             @PathVariable(name = "gameId") @Pattern(regexp = "^[0-9]*$", message = "{game.gameId.invalid}") String gameId,
             @RequestParam(name = "gameImage", defaultValue = "") String gameImage)

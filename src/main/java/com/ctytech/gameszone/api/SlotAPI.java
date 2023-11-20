@@ -29,6 +29,7 @@ public class SlotAPI {
     private SlotService slotService;
 
     @PutMapping(value = "/{gameId}/update/slot/{slotId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<SlotDTO> updateSlot(
             @PathVariable(name = "gameId") @Pattern(regexp = "^[0-9]*$", message = "{game.gameId.invalid}") String gameId,
             @PathVariable(name = "slotId") @Pattern(regexp = "^[0-9]*$", message = "{slot.slotId.invalid}") String slotId,
@@ -40,6 +41,7 @@ public class SlotAPI {
     }
 
     @PostMapping(value = "/{gameId}/add/slot")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<SlotDTO> addSlot(
             @PathVariable(name = "gameId") @Pattern(regexp = "^[0-9]*$", message = "{game.gameId.invalid}") String gameId,
             @RequestBody @Valid SlotDTO slot)
