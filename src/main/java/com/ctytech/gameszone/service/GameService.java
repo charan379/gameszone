@@ -70,4 +70,6 @@ public interface GameService {
      * @throws GameszoneException
      */
     void addGameSlot(Integer gameId, Slot newSlot) throws GameszoneException;
+
+    void deleteGame(Integer gameId) throws GameszoneException;
 }

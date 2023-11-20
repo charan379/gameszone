@@ -145,4 +145,13 @@ public class GameServiceImpl implements GameService {
         game.getSlots().add(newSlot);
     }
 
+    @Override
+    public void deleteGame(Integer gameId) throws GameszoneException {
+
+        Game game = gameRepository.findById(gameId)
+                .orElseThrow(() -> new GameszoneException("GameService.GAME_NOT_FOUND"));
+
+        gameRepository.delete(game);
+    }
+
 }
