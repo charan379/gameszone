@@ -59,7 +59,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/user/register", "/auth/generate-token").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                // .formLogin(formLogin -> formLogin.permitAll())
+                .formLogin(formLogin -> formLogin.disable())
                 .authenticationProvider(authenticationProvider())
                 .exceptionHandling(
                         exceptionHandling -> exceptionHandling.authenticationEntryPoint(authenticationEntryPoint))
