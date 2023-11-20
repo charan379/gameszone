@@ -2,6 +2,7 @@ package com.ctytech.gameszone.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.ctytech.gameszone.constants.BookingStatus;
 import com.ctytech.gameszone.dto.BookingDTO;
@@ -123,6 +124,31 @@ public class Booking {
         bookingDTO.setUser(user.toDto());
 
         return bookingDTO;
+    }
 
+    public BookingDTO tDto(List<String> includes) {
+        if (includes != null)
+            includes.stream().map(string -> string.toLowerCase());
+
+        BookingDTO bookingDTO = new BookingDTO();
+
+        bookingDTO.setBookingId(bookingId);
+        bookingDTO.setForDate(forDate);
+        bookingDTO.setTransactionDate(transactionDate);
+        bookingDTO.setBookingStatus(bookingStatus);
+        bookingDTO.setGameId(game.getGameId());
+        bookingDTO.setSlotId(slot.getSlotId());
+        bookingDTO.setUserId(user.getUserId());
+
+        if (includes != null && includes.contains("game"))
+            bookingDTO.setGame(game.toDto());
+
+        if (includes != null && includes.contains("slot"))
+            bookingDTO.setSlot(slot.toDto());
+
+        if (includes != null && includes.contains("user"))
+            bookingDTO.setUser(user.toDto());
+
+        return bookingDTO;
     }
 }

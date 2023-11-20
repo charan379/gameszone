@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 import com.ctytech.gameszone.constants.BookingStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -96,6 +97,7 @@ public class BookingDTO {
         this.userId = userId;
     }
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public GameDTO getGame() {
         return game;
     }
@@ -104,6 +106,7 @@ public class BookingDTO {
         this.game = game;
     }
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public SlotDTO getSlot() {
         return slot;
     }
@@ -112,6 +115,7 @@ public class BookingDTO {
         this.slot = slot;
     }
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public UserDTO getUser() {
         return user;
     }

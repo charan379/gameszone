@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +24,7 @@ import com.ctytech.gameszone.record.SlotAvailabilityRecord;
 import com.ctytech.gameszone.service.BookingService;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
@@ -71,6 +73,19 @@ public class BookingAPI {
                         LocalDate.parse(forDate, dateTimeFormatter));
 
         return new ResponseEntity<List<SlotAvailabilityRecord>>(listOfSlotAvailabilityRecords, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/search")
+    public ResponseEntity<Page<BookingDTO>> getBookingsPage(
+            @RequestParam(name = "pageNo", defaultValue = "0") @Pattern(regexp = "^[0-9]*$", message = "{page.pageno.invalid}") String pageNo,
+            @RequestParam(name = "limit", defaultValue = "10") @Pattern(regexp = "^[0-9]*$", message = "{page.limit.invalid}") @Min(value = 1, message = "{page.limit.min}") String limit,
+            @RequestParam(required = false, name = "include", defaultValue = "") List<String> include)
+            throws GameszoneException {
+
+        Page<BookingDTO> bookingsPage = bookingService.searchBookings(Integer.valueOf(pageNo), Integer.valueOf(limit),
+                include);
+
+        return new ResponseEntity<Page<BookingDTO>>(bookingsPage, HttpStatus.OK);
 
     }
 }

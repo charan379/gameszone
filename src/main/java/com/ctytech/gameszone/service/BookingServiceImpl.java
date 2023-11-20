@@ -7,6 +7,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -121,6 +126,20 @@ public class BookingServiceImpl implements BookingService {
             }
 
         return slotsWithAvailabilityStatus;
+    }
+
+    @Override
+    public Page<BookingDTO> searchBookings(Integer pageNo, Integer resultsPerPage, List<String> includes)
+            throws GameszoneException {
+
+        Pageable pageable = PageRequest.of(pageNo, resultsPerPage, Sort.by(Direction.ASC, "for_date"));
+
+        Page<BookingDTO> bookingsPage = bookingRepository
+                                        .findByBookingQuery(pageable)
+                                        .map(booking -> booking.tDto(includes));
+        
+
+        return bookingsPage;
     }
 
 }

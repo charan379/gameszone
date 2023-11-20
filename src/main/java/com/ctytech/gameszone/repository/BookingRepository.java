@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -25,5 +27,8 @@ public interface BookingRepository extends CrudRepository<Booking, Integer> {
             Integer gameId,
             Integer slotId,
             List<String> status);
+
+    @Query(value = "SELECT * FROM bookings b", countQuery = "SELECT count(*) FROM bookings b", nativeQuery = true)
+    Page<Booking> findByBookingQuery(Pageable pageable);
 
 }
