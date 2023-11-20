@@ -32,4 +32,6 @@ public interface SlotService {
      * @throws GameszoneException
      */
     SlotDTO addSlot(Integer gameId, SlotDTO newSlot) throws GameszoneException;
+
+    void deleteSlot(Integer slotId) throws GameszoneException;
 }

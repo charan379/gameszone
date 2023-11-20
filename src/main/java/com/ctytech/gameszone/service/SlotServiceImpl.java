@@ -118,4 +118,13 @@ public class SlotServiceImpl implements SlotService {
         }
 
     }
+
+    @Override
+    public void deleteSlot(Integer slotId) throws GameszoneException {
+
+        Slot slot = slotRepository.findById(slotId)
+                .orElseThrow(() -> new GameszoneException("SlotService.SLOT_NOT_FOUND"));
+
+        slotRepository.delete(slot);
+    }
 }

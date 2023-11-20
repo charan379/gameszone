@@ -3,7 +3,9 @@ package com.ctytech.gameszone.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -46,5 +48,16 @@ public class SlotAPI {
         SlotDTO newSlot = slotService.addSlot(Integer.parseInt(gameId), slot);
 
         return new ResponseEntity<SlotDTO>(newSlot, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping(value = "/slot/{slotId}")
+    @PreAuthorize(value = "hasRole('ADMIN')")
+    public ResponseEntity<String> deleteSlot(
+            @PathVariable(name = "slotId") @Pattern(regexp = "^[0-9]*$", message = "{slot.slotId.invalid}") String slotId)
+            throws GameszoneException {
+
+        slotService.deleteSlot(Integer.parseInt(slotId));
+
+        return new ResponseEntity<>("Successfully Deleted", HttpStatus.OK);
     }
 }
