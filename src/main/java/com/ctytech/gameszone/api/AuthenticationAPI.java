@@ -29,13 +29,10 @@ public class AuthenticationAPI {
         public ResponseEntity<AuthResponse> generateToken(@RequestBody @Valid AuthRequest authRequest)
                         throws Exception, GameszoneException, UsernameNotFoundException {
 
-                String accessToken = authenticationService.authenticate(authRequest.getUserName(),
+                AuthResponse authResponse = authenticationService.authenticate(authRequest.getUserName(),
                                 authRequest.getPassword());
 
-                AuthResponse authResponse = new AuthResponse(authRequest.getUserName(), accessToken);
-
-                return new ResponseEntity<AuthResponse>(authResponse,
-                                HttpStatus.OK);
+                return new ResponseEntity<AuthResponse>(authResponse, HttpStatus.OK);
 
         }
 
