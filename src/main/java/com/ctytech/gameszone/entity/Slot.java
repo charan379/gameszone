@@ -1,13 +1,17 @@
 package com.ctytech.gameszone.entity;
 
 import java.time.LocalTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.ctytech.gameszone.dto.SlotDTO;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
@@ -31,6 +35,9 @@ public class Slot {
     private String location;
 
     private Integer gameId;
+
+    @OneToMany(mappedBy = "slot", fetch = FetchType.LAZY, orphanRemoval = true)
+    private Set<Booking> bookings = new HashSet<>();
 
     public Integer getSlotId() {
         return slotId;

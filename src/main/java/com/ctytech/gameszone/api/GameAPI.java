@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ctytech.gameszone.api.responses.GenericResponse;
 import com.ctytech.gameszone.dto.GameDTO;
 import com.ctytech.gameszone.dto.SlotDTO;
 import com.ctytech.gameszone.exception.GameszoneException;
@@ -127,13 +128,15 @@ public class GameAPI {
 
     @DeleteMapping(value = "/{gameId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<String> deleteGame(
+    public ResponseEntity<GenericResponse> deleteGame(
             @PathVariable(name = "gameId") @Pattern(regexp = "^[0-9]*$", message = "{game.gameId.invalid}") String gameId)
             throws GameszoneException {
 
         gameService.deleteGame(Integer.parseInt(gameId));
 
-        return new ResponseEntity<String>("Successfully Deleted", HttpStatus.OK);
+        GenericResponse genericResponse = new GenericResponse("Successfully Deleted");
+
+        return new ResponseEntity<GenericResponse>(genericResponse, HttpStatus.OK);
 
     }
 }
