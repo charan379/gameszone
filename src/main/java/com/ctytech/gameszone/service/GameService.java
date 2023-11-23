@@ -43,7 +43,8 @@ public interface GameService {
      * @see GameDTO
      * @throws GameszoneException
      */
-    Page<GameDTO> searchGames(String gameName, Integer pageNo, Integer resultsPerPage, boolean includeSlots)
+    Page<GameDTO> searchGames(String gameName, Integer pageNo, Integer resultsPerPage, String sort,
+            boolean includeSlots)
             throws GameszoneException;
 
     /**

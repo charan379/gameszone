@@ -83,10 +83,19 @@ public class GameServiceImpl implements GameService {
      * {@inheritDoc}
      */
     @Override
-    public Page<GameDTO> searchGames(String gameName, Integer pageNo, Integer resultsPerPage, boolean includeSlots)
+    public Page<GameDTO> searchGames(String gameName, Integer pageNo, Integer resultsPerPage, String sort,
+            boolean includeSlots)
             throws GameszoneException {
 
-        Pageable pageable = PageRequest.of(pageNo, resultsPerPage, Sort.by(Sort.Direction.ASC, "gameName"));
+        System.out.println(sort.split("\\.")[1]);
+        Pageable pageable = PageRequest.of(
+                pageNo,
+                resultsPerPage,
+                Sort.by(
+                        sort.split("\\.")[1].equals("asc")
+                                ? Sort.Direction.ASC
+                                : Sort.Direction.DESC,
+                        sort.split("\\.")[0]));
 
         Page<Game> gamePage = gameRepository.searchGameByName(gameName, pageable);
 
