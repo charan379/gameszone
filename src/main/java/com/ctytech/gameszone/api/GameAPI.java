@@ -75,7 +75,7 @@ public class GameAPI {
             @RequestParam(name = "query", defaultValue = "") String query,
             @RequestParam(name = "pageNo", defaultValue = "0") @Pattern(regexp = "^[0-9]*$", message = "{page.pageno.invalid}") String pageNo,
             @RequestParam(name = "limit", defaultValue = "10") @Pattern(regexp = "^[0-9]*$", message = "{page.limit.invalid}") @Min(value = 1, message = "{page.limit.min}") String limit,
-            @RequestParam(name = "sort", defaultValue = "id.asc") @Pattern(regexp = "^(?:gameId|gameName)\\.(?:asc|desc)$", message = "{page.sort.invalid}") String sort,
+            @RequestParam(name = "sort", defaultValue = "gameId.asc") @Pattern(regexp = "^(?:gameId|gameName)\\.(?:asc|desc)$", message = "{page.sort.invalid}") String sort,
             @RequestParam(required = false, name = "include", defaultValue = "") List<String> include)
             throws GameszoneException {
 
