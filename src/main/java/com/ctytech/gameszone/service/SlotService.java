@@ -2,6 +2,8 @@ package com.ctytech.gameszone.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import com.ctytech.gameszone.dto.SlotDTO;
 import com.ctytech.gameszone.exception.GameszoneException;
 
@@ -34,4 +36,7 @@ public interface SlotService {
     SlotDTO addSlot(Integer gameId, SlotDTO newSlot) throws GameszoneException;
 
     void deleteSlot(Integer slotId) throws GameszoneException;
+
+    Page<SlotDTO> searchSlots(Integer gameId, String nameQuery, String locationQuery, Integer pageNo,
+            Integer resultsPerPage, String sort) throws GameszoneException;
 }
