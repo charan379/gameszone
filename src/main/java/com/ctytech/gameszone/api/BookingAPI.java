@@ -62,15 +62,23 @@ public class BookingAPI {
     @GetMapping(value = "/game/{gameId}/slots/availability")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
     public ResponseEntity<List<SlotAvailabilityRecord>> getSlotsAvailabilty(
-            @RequestParam(name = "forDate") @NotNull(message = "{booking.bookingdate.absent}") @Pattern(regexp = "(?:[0-9]{1,2})-(0[1-9]|1[012])-(20)\\d{2}", message = "{booking.fordate.invalid}") String forDate,
+            @RequestParam(name = "forDate", defaultValue = "today") @NotNull(message = "{booking.bookingdate.absent}") @Pattern(regexp = "(?:[0-9]{1,2})-(0[1-9]|1[012])-(2)\\d{3}|today$", message = "{booking.fordate.invalid}") String forDate,
             @PathVariable(name = "gameId") @Pattern(regexp = "^[0-9]*$", message = "{game.gameId.invalid}") String gameId)
             throws GameszoneException {
 
+        LocalDate bookingForDate;
+
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        if (forDate.trim().equals("today")) {
+            bookingForDate = LocalDate.now();
+        } else {
+            bookingForDate = LocalDate.parse(forDate, dateTimeFormatter);
+        }
 
         List<SlotAvailabilityRecord> listOfSlotAvailabilityRecords = bookingService
                 .fetchGameSlotsWithAvailabilityStatus(Integer.parseInt(gameId),
-                        LocalDate.parse(forDate, dateTimeFormatter));
+                        bookingForDate);
 
         return new ResponseEntity<List<SlotAvailabilityRecord>>(listOfSlotAvailabilityRecords, HttpStatus.OK);
     }

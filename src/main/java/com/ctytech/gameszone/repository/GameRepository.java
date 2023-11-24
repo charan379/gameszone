@@ -14,6 +14,6 @@ import java.util.Optional;
 public interface GameRepository extends CrudRepository<Game, Integer> {
     Optional<Game> findByGameName(String gameName);
 
-    @Query(value = "SELECT g FROM Game g WHERE g.gameName LIKE %:query%", countQuery = "SELECT count(*) FROM Game g WHERE g.gameName LIKE %:query%")
+    @Query(value = "SELECT g FROM Game g WHERE g.gameName LIKE %:query%", countQuery = "SELECT count(g) FROM Game g WHERE g.gameName LIKE %:query%")
     Page<Game> searchGameByName(@Param("query") String nameQuery, Pageable pageable);
 }

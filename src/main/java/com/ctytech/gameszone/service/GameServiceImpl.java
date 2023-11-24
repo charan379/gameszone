@@ -87,7 +87,6 @@ public class GameServiceImpl implements GameService {
             boolean includeSlots)
             throws GameszoneException {
 
-        System.out.println(sort.split("\\.")[1]);
         Pageable pageable = PageRequest.of(
                 pageNo,
                 resultsPerPage,
@@ -97,11 +96,10 @@ public class GameServiceImpl implements GameService {
                                 : Sort.Direction.DESC,
                         sort.split("\\.")[0]));
 
-        Page<Game> gamePage = gameRepository.searchGameByName(gameName, pageable);
+        Page<GameDTO> gamesPage = gameRepository.searchGameByName(gameName, pageable)
+                .map(game -> game.toDto(includeSlots));
 
-        Page<GameDTO> gPage = gamePage.map(game -> game.toDto(includeSlots));
-
-        return gPage;
+        return gamesPage;
     }
 
     /**
