@@ -18,12 +18,12 @@ public class SlotDTO {
     private String slotName;
 
     @NotNull(message = "{slot.starttime.absent}")
-    @Pattern(regexp = "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$", message = "{slot.starttime.invalid}")
+    @Pattern(regexp = "^([0-1]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$", message = "{slot.starttime.invalid}")
     @Temporal(TemporalType.TIME)
     private String startTime;
 
     @NotNull(message = "{slot.endtime.absent}")
-    @Pattern(regexp = "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$", message = "{slot.endtime.invalid}")
+    @Pattern(regexp = "^([0-1]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$", message = "{slot.endtime.invalid}")
     @Temporal(TemporalType.TIME)
     private String endTime;
 
@@ -91,7 +91,7 @@ public class SlotDTO {
     }
 
     public LocalTime convertStringToLocalTime(String time) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm[:ss]");
         LocalTime formatedLocalTime = LocalTime.parse(time.toString(), dateTimeFormatter);
         return formatedLocalTime;
     }
