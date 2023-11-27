@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -170,6 +171,32 @@ public class BookingServiceImpl implements BookingService {
         }
 
         return bookingsPage;
+    }
+
+    @Override
+    public BookingDTO updateBookingStatus(Integer bookingId, BookingStatus status) throws GameszoneException {
+
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new GameszoneException("BookingService.BOOKING_NOT_FOUND"));
+
+        switch (status) {
+            case APPROVED:
+                booking.setBookingStatus(BookingStatus.APPROVED);
+                break;
+            case REJECTED:
+                booking.setBookingStatus(BookingStatus.REJECTED);
+            case CANCELLED:
+                if (SecurityContextHolder.getContext().getAuthentication().getName()
+                        .equals(booking.getUser().getUserName())) {
+                    booking.setBookingStatus(BookingStatus.CANCELLED);
+                } else {
+                    throw new GameszoneException("BookingService.UNAUTHORIZED_OPERATION");
+                }
+            default:
+                throw new GameszoneException("BookingService.UNSUPPORTED_OPERATION");
+        }
+
+        return booking.tDto();
     }
 
 }

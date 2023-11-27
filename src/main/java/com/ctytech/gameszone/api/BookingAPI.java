@@ -13,11 +13,14 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ctytech.gameszone.api.responses.GenericResponse;
+import com.ctytech.gameszone.constants.BookingStatus;
 import com.ctytech.gameszone.dto.BookingDTO;
 import com.ctytech.gameszone.exception.GameszoneException;
 import com.ctytech.gameszone.record.SlotAvailabilityRecord;
@@ -102,6 +105,44 @@ public class BookingAPI {
                 include);
 
         return new ResponseEntity<Page<BookingDTO>>(bookingsPage, HttpStatus.OK);
+    }
 
+    @PutMapping(value = "/{bookingId}/approve")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<GenericResponse> approveBooking(
+            @PathVariable(name = "bookingId") @Pattern(regexp = "^[0-9]*$", message = "{booking.bookingId.invalid}") String bookingId)
+            throws GameszoneException {
+
+        bookingService.updateBookingStatus(Integer.parseInt(bookingId), BookingStatus.APPROVED);
+
+        GenericResponse genericResponse = new GenericResponse("Booking successfully approved !");
+
+        return new ResponseEntity<>(genericResponse, HttpStatus.OK);
+
+    }
+
+    @PutMapping(value = "/{bookingId}/reject")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<GenericResponse> rejectBooking(
+            @PathVariable(name = "bookingId") @Pattern(regexp = "^[0-9]*$", message = "{booking.bookingId.invalid}") String bookingId)
+            throws GameszoneException {
+
+        bookingService.updateBookingStatus(Integer.parseInt(bookingId), BookingStatus.REJECTED);
+
+        GenericResponse genericResponse = new GenericResponse("Booking successfully rejected !");
+
+        return new ResponseEntity<>(genericResponse, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/{bookingId}/cancel")
+    public ResponseEntity<GenericResponse> cancelBooking(
+            @PathVariable(name = "bookingId") @Pattern(regexp = "^[0-9]*$", message = "{booking.bookingId.invalid}") String bookingId)
+            throws GameszoneException {
+
+        bookingService.updateBookingStatus(Integer.parseInt(bookingId), BookingStatus.CANCELLED);
+
+        GenericResponse genericResponse = new GenericResponse("Booking successfully cancelled !");
+
+        return new ResponseEntity<>(genericResponse, HttpStatus.OK);
     }
 }
