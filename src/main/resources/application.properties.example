@@ -25,4 +25,4 @@ logging.level.org.hibernate.stat=debug
 
 
 #jwt
-app.jwt.secret=SGkgYm9vbSBib29tIHNoYWthbGFrYSwgbGV0cyBnZXQgcGFydHkgdG9uaWdodCBsYWthIGxha2E=
+app.jwt.secret=
