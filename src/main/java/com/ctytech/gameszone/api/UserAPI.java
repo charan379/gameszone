@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ctytech.gameszone.api.requests.RegisterUserRequest;
 import com.ctytech.gameszone.dto.UserDTO;
 import com.ctytech.gameszone.exception.GameszoneException;
 import com.ctytech.gameszone.service.UserService;
@@ -28,7 +29,15 @@ public class UserAPI {
     private UserService userService;
 
     @PostMapping(value = "/register")
-    public ResponseEntity<String> postNewUser(@RequestBody @Valid UserDTO userDTO) throws GameszoneException {
+    public ResponseEntity<String> postNewUser(@RequestBody @Valid RegisterUserRequest registerUserRequest)
+            throws GameszoneException {
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserName(registerUserRequest.getUserName());
+        userDTO.setPassword(registerUserRequest.getPassword());
+        userDTO.setStatus(registerUserRequest.getStatus());
+        userDTO.setEmail(registerUserRequest.getEmail());
+
         String result = userService.registerNewUser(userDTO);
 
         return new ResponseEntity<>(result, HttpStatus.CREATED);
