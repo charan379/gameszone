@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.ctytech.gameszone.constants.UserStatus;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import jakarta.validation.constraints.Email;
