@@ -19,6 +19,12 @@ public interface BookingService {
         List<SlotAvailabilityRecord> fetchGameSlotsWithAvailabilityStatus(Integer gameId, LocalDate forDate)
                         throws GameszoneException;
 
-        Page<BookingDTO> searchBookings(Integer pageNo, Integer resultsPerPage, List<String> includes)
+        Page<BookingDTO> searchBookings(
+                        String forDate,
+                        String bookingStatus,
+                        String userId,
+                        String gameId,
+                        Integer pageNo,
+                        Integer resultsPerPage, String sort, List<String> includes)
                         throws GameszoneException;
 }

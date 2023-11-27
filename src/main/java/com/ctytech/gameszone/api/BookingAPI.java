@@ -85,12 +85,20 @@ public class BookingAPI {
 
     @GetMapping(value = "/search")
     public ResponseEntity<Page<BookingDTO>> getBookingsPage(
+            @RequestParam(required = false, name = "gameId", defaultValue = "") @Pattern(regexp = "^[0-9]*$", message = "{game.gameId.invalid}") String gameId,
+            @RequestParam(required = false, name = "userId", defaultValue = "") @Pattern(regexp = "^[0-9]*$", message = "{user.userId.invalid}") String userId,
+            @RequestParam(required = false, name = "status", defaultValue = "") @Pattern(regexp = "APPROVED|REQUESTED|REJECTED|CANCELLED|$", message = "{booking.status.invalid}") String bookingStatus,
+            @RequestParam(name = "forDate", defaultValue = "") @NotNull(message = "{booking.bookingdate.absent}") @Pattern(regexp = "(?:[0-9]{1,2})-(0[1-9]|1[012])-(2)\\d{3}|$", message = "{booking.fordate.invalid}") String forDate,
             @RequestParam(name = "pageNo", defaultValue = "0") @Pattern(regexp = "^[0-9]*$", message = "{page.pageno.invalid}") String pageNo,
             @RequestParam(name = "limit", defaultValue = "10") @Pattern(regexp = "^[0-9]*$", message = "{page.limit.invalid}") @Min(value = 1, message = "{page.limit.min}") String limit,
+            @RequestParam(name = "sort", defaultValue = "for_date.asc") @Pattern(regexp = "^(?:for_date|booking_id|transaction_date)\\.(?:asc|desc)$", message = "{page.sort.invalid}") String sort,
             @RequestParam(required = false, name = "include", defaultValue = "") List<String> include)
             throws GameszoneException {
 
-        Page<BookingDTO> bookingsPage = bookingService.searchBookings(Integer.valueOf(pageNo), Integer.valueOf(limit),
+        Page<BookingDTO> bookingsPage = bookingService.searchBookings(forDate, bookingStatus, userId,
+                gameId,
+                Integer.valueOf(pageNo), Integer.valueOf(limit),
+                sort,
                 include);
 
         return new ResponseEntity<Page<BookingDTO>>(bookingsPage, HttpStatus.OK);

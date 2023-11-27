@@ -2,6 +2,7 @@ package com.ctytech.gameszone.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -129,15 +129,45 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Page<BookingDTO> searchBookings(Integer pageNo, Integer resultsPerPage, List<String> includes)
+    public Page<BookingDTO> searchBookings(
+            String forDate,
+            String bookingStatus,
+            String userId,
+            String gameId,
+            Integer pageNo,
+            Integer resultsPerPage,
+            String sort,
+            List<String> includes)
             throws GameszoneException {
 
-        Pageable pageable = PageRequest.of(pageNo, resultsPerPage, Sort.by(Direction.ASC, "for_date"));
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-        Page<BookingDTO> bookingsPage = bookingRepository
-                                        .findByBookingQuery(pageable)
-                                        .map(booking -> booking.tDto(includes));
-        
+        Pageable pageable = PageRequest.of(pageNo, resultsPerPage, Sort.by(
+                sort.split("\\.")[1].equals("asc")
+                        ? Sort.Direction.ASC
+                        : Sort.Direction.DESC,
+                sort.split("\\.")[0]));
+
+        Page<BookingDTO> bookingsPage;
+
+        if (forDate.equals("")) {
+            bookingsPage = bookingRepository
+                    .findByBookingQuery(
+                            bookingStatus,
+                            userId,
+                            gameId,
+                            pageable)
+                    .map(booking -> booking.tDto(includes));
+        } else {
+            bookingsPage = bookingRepository
+                    .findByBookingQuery(
+                            LocalDate.parse(forDate, dateTimeFormatter),
+                            bookingStatus,
+                            userId,
+                            gameId,
+                            pageable)
+                    .map(booking -> booking.tDto(includes));
+        }
 
         return bookingsPage;
     }

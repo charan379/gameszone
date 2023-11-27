@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.ctytech.gameszone.entity.Booking;
@@ -28,7 +29,19 @@ public interface BookingRepository extends CrudRepository<Booking, Integer> {
             Integer slotId,
             List<String> status);
 
-    @Query(value = "SELECT * FROM bookings b", countQuery = "SELECT count(*) FROM bookings b", nativeQuery = true)
-    Page<Booking> findByBookingQuery(Pageable pageable);
+    @Query(value = "SELECT * FROM bookings b WHERE b.for_date LIKE %:forDate% AND b.booking_status LIKE %:bookingStatus% AND b.user_id LIKE %:userId% AND b.game_id LIKE %:gameId%", countQuery = "SELECT count(*) FROM bookings b WHERE b.for_date LIKE %:forDate% AND b.booking_status LIKE %:bookingStatus% AND b.user_id LIKE %:userId% AND b.game_id LIKE %:gameId%", nativeQuery = true)
+    Page<Booking> findByBookingQuery(
+            @Param("forDate") LocalDate forDate,
+            @Param("bookingStatus") String bookingStatus,
+            @Param("userId") String userId,
+            @Param("gameId") String gameId,
+            Pageable pageable);
+
+    @Query(value = "SELECT * FROM bookings b WHERE b.booking_status LIKE %:bookingStatus% AND b.user_id LIKE %:userId% AND b.game_id LIKE %:gameId%", countQuery = "SELECT count(*) FROM bookings b WHERE b.booking_status LIKE %:bookingStatus% AND b.user_id LIKE %:userId% AND b.game_id LIKE %:gameId%", nativeQuery = true)
+    Page<Booking> findByBookingQuery(
+            @Param("bookingStatus") String bookingStatus,
+            @Param("userId") String userId,
+            @Param("gameId") String gameId,
+            Pageable pageable);
 
 }
