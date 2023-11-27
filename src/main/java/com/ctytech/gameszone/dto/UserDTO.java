@@ -32,7 +32,7 @@ public class UserDTO {
     @Email(message = "{user.email.format.invalid}")
     private String email;
 
-    @NotNull
+    @NotNull(message = "{user.status.absent}")
     // @Pattern(regexp = "^(ACTIVE|INACTIVE|DELETED)$")
     private UserStatus status;
 
@@ -71,7 +71,6 @@ public class UserDTO {
     }
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonIgnore
     public String getPassword() {
         return password;
     }
