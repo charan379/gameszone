@@ -5,9 +5,10 @@ import java.util.Objects;
 
 import com.ctytech.gameszone.constants.UserStatus;
 
-public record AuthResponse(String userName, String accessToken, List<String> roles, UserStatus status) {
+public record AuthResponse(Integer userId, String userName, String accessToken, List<String> roles, UserStatus status) {
 
     public AuthResponse {
+        Objects.requireNonNull(userId);
         Objects.requireNonNull(userName);
         Objects.requireNonNull(accessToken);
         Objects.requireNonNull(roles);

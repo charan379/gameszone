@@ -13,39 +13,42 @@ import org.springframework.stereotype.Service;
 import com.ctytech.gameszone.api.responses.AuthResponse;
 import com.ctytech.gameszone.constants.UserStatus;
 import com.ctytech.gameszone.exception.GameszoneException;
+import com.ctytech.gameszone.security.CustomUserDetails;
 import com.ctytech.gameszone.security.jwt.JwtService;
 
 @Service(value = "AuthenticationService")
 public class AuthenticationServiceImpl implements AuthenticationService {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+        @Autowired
+        private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private JwtService jwtService;
+        @Autowired
+        private JwtService jwtService;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+        @Autowired
+        private UserDetailsService userDetailsService;
 
-    @Override
-    public AuthResponse authenticate(String userName, String password)
-            throws GameszoneException, UsernameNotFoundException {
+        @Override
+        public AuthResponse authenticate(String userName, String password)
+                        throws GameszoneException, UsernameNotFoundException {
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(userName, password));
+                authenticationManager.authenticate(
+                                new UsernamePasswordAuthenticationToken(userName, password));
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
-        //
+                CustomUserDetails userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(userName);
+                //
 
-        String authToken = jwtService.generateToken(userDetails);
-        ;
-        AuthResponse authResponse = new AuthResponse(
-                userDetails.getUsername(),
-                authToken,
-                userDetails.getAuthorities().stream().map(role -> role.getAuthority()).collect(Collectors.toList()),
-                (userDetails.isEnabled()) ? UserStatus.ACTIVE : UserStatus.INACTIVE);
+                String authToken = jwtService.generateToken(userDetails);
+                ;
+                AuthResponse authResponse = new AuthResponse(
+                                userDetails.getUserId(),
+                                userDetails.getUsername(),
+                                authToken,
+                                userDetails.getAuthorities().stream().map(role -> role.getAuthority())
+                                                .collect(Collectors.toList()),
+                                (userDetails.isEnabled()) ? UserStatus.ACTIVE : UserStatus.INACTIVE);
 
-        return authResponse;
-    }
+                return authResponse;
+        }
 
 }
