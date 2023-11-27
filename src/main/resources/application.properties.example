@@ -14,8 +14,15 @@ spring.jpa.generate-ddl=true
 
 #
 server.error.whitelabel.enabled=false
-logging.level.org.hibernate.type=info
 
 #hibernate
 spring.jpa.properties.show_sql=true
 spring.jpa.hibernate.ddl-auto=update
+logging.level.org.hibernate.orm.jdbc.bind=trace
+# logging.level.org.hibernate.type=info
+logging.level.org.hibernate.type=trace
+logging.level.org.hibernate.stat=debug
+
+
+#jwt
+app.jwt.secret=SGkgYm9vbSBib29tIHNoYWthbGFrYSwgbGV0cyBnZXQgcGFydHkgdG9uaWdodCBsYWthIGxha2E=
