@@ -2,12 +2,16 @@ package com.ctytech.gameszone.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ctytech.gameszone.constants.BookingStatus;
 import com.ctytech.gameszone.dto.BookingDTO;
 import com.ctytech.gameszone.dto.GameDTO;
+import com.ctytech.gameszone.dto.OptionDTO;
 import com.ctytech.gameszone.dto.SlotDTO;
 import com.ctytech.gameszone.entity.Booking;
 import com.ctytech.gameszone.entity.Game;
@@ -34,6 +39,12 @@ import com.ctytech.gameszone.repository.UserRepository;
 @Service(value = "bookingService")
 @Transactional
 public class BookingServiceImpl implements BookingService {
+
+    @Value("${app.config.bookings.max-enabled-days:#{2}}")
+    private Integer MAX_ENABLED_DAYS;
+
+    @Value("#{T(java.time.LocalTime).parse('${app.config.bookings.opening-time:00:33}', T(java.time.format.DateTimeFormatter).ofPattern('HH:mm'))}")
+    private LocalTime BOOKINGS_OPENING_TIME;
 
     @Autowired
     private BookingRepository bookingRepository;
@@ -197,6 +208,24 @@ public class BookingServiceImpl implements BookingService {
         }
 
         return booking.tDto();
+    }
+
+    @Override
+    public Set<OptionDTO> getBookingEnabledDates() throws GameszoneException {
+
+        Set<OptionDTO> options = new LinkedHashSet<OptionDTO>();
+
+        LocalDate currenDate = LocalDate.now();
+
+        LocalDate toBeEnabledTill = currenDate
+                .plusDays(LocalTime.now().isAfter(BOOKINGS_OPENING_TIME) ? MAX_ENABLED_DAYS : MAX_ENABLED_DAYS - 1);
+
+        currenDate.datesUntil(toBeEnabledTill).forEach((date) -> {
+            options.add(new OptionDTO(date.format(DateTimeFormatter.ofPattern("dd-MMM-yyyy")),
+                    date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))));
+        });
+
+        return options;
     }
 
 }

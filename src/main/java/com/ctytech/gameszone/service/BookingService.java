@@ -2,11 +2,13 @@ package com.ctytech.gameszone.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 
 import com.ctytech.gameszone.constants.BookingStatus;
 import com.ctytech.gameszone.dto.BookingDTO;
+import com.ctytech.gameszone.dto.OptionDTO;
 import com.ctytech.gameszone.exception.GameszoneException;
 import com.ctytech.gameszone.record.SlotAvailabilityRecord;
 
@@ -21,6 +23,8 @@ public interface BookingService {
 
         List<SlotAvailabilityRecord> fetchGameSlotsWithAvailabilityStatus(Integer gameId, LocalDate forDate)
                         throws GameszoneException;
+
+        Set<OptionDTO> getBookingEnabledDates() throws GameszoneException;
 
         Page<BookingDTO> searchBookings(
                         String forDate,

@@ -3,6 +3,7 @@ package com.ctytech.gameszone.api;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ctytech.gameszone.api.responses.GenericResponse;
 import com.ctytech.gameszone.constants.BookingStatus;
 import com.ctytech.gameszone.dto.BookingDTO;
+import com.ctytech.gameszone.dto.OptionDTO;
 import com.ctytech.gameszone.exception.GameszoneException;
 import com.ctytech.gameszone.record.SlotAvailabilityRecord;
 import com.ctytech.gameszone.service.BookingService;
@@ -144,5 +146,15 @@ public class BookingAPI {
         GenericResponse genericResponse = new GenericResponse("Booking successfully cancelled !");
 
         return new ResponseEntity<>(genericResponse, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/dates")
+    public ResponseEntity<Set<OptionDTO>> getEnabledDates() throws GameszoneException {
+
+        Set<OptionDTO> options = bookingService.getBookingEnabledDates();
+
+        return new ResponseEntity<>(
+                options,
+                HttpStatus.OK);
     }
 }
