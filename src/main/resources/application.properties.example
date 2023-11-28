@@ -24,11 +24,14 @@ logging.level.org.hibernate.type=trace
 logging.level.org.hibernate.stat=debug
 
 # time zone 
-app.config.time-zone=Asia/Calcutta
+# Asia/Calcutta
+app.config.time-zone=
 
 # bookings
-# app.config.bookings.max-enabled-days=5
-# app.config.bookings.opening-time=18:30
+# 5
+# app.config.bookings.max-enabled-days=
+# 18:30
+# app.config.bookings.opening-time=
 
 #jwt
 app.jwt.secret=
