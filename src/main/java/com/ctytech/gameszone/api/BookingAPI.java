@@ -148,7 +148,7 @@ public class BookingAPI {
         return new ResponseEntity<>(genericResponse, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/dates")
+    @GetMapping(value = "/enabled-dates")
     public ResponseEntity<Set<OptionDTO>> getEnabledDates() throws GameszoneException {
 
         Set<OptionDTO> options = bookingService.getBookingEnabledDates();
