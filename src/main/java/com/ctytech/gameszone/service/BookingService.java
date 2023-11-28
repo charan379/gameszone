@@ -29,6 +29,7 @@ public interface BookingService {
         Page<BookingDTO> searchBookings(
                         String forDate,
                         String bookingStatus,
+                        String bookingId,
                         String userId,
                         String gameId,
                         Integer pageNo,

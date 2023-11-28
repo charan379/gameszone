@@ -90,6 +90,7 @@ public class BookingAPI {
 
     @GetMapping(value = "/search")
     public ResponseEntity<Page<BookingDTO>> getBookingsPage(
+            @RequestParam(required = false, name = "bookingId", defaultValue = "") @Pattern(regexp = "^[0-9]*$", message = "{booking.bookingId.invalid}") String bookingId,
             @RequestParam(required = false, name = "gameId", defaultValue = "") @Pattern(regexp = "^[0-9]*$", message = "{game.gameId.invalid}") String gameId,
             @RequestParam(required = false, name = "userId", defaultValue = "") @Pattern(regexp = "^[0-9]*$", message = "{user.userId.invalid}") String userId,
             @RequestParam(required = false, name = "status", defaultValue = "") @Pattern(regexp = "APPROVED|REQUESTED|REJECTED|CANCELLED|$", message = "{booking.status.invalid}") String bookingStatus,
@@ -100,7 +101,11 @@ public class BookingAPI {
             @RequestParam(required = false, name = "include", defaultValue = "") List<String> include)
             throws GameszoneException {
 
-        Page<BookingDTO> bookingsPage = bookingService.searchBookings(forDate, bookingStatus, userId,
+        Page<BookingDTO> bookingsPage = bookingService.searchBookings(
+                forDate,
+                bookingStatus,
+                bookingId,
+                userId,
                 gameId,
                 Integer.valueOf(pageNo), Integer.valueOf(limit),
                 sort,

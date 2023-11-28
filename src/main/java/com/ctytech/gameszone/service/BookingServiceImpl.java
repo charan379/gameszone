@@ -144,6 +144,7 @@ public class BookingServiceImpl implements BookingService {
     public Page<BookingDTO> searchBookings(
             String forDate,
             String bookingStatus,
+            String bookingId,
             String userId,
             String gameId,
             Integer pageNo,
@@ -166,6 +167,7 @@ public class BookingServiceImpl implements BookingService {
             bookingsPage = bookingRepository
                     .findByBookingQuery(
                             bookingStatus,
+                            bookingId,
                             userId,
                             gameId,
                             pageable)
@@ -175,6 +177,7 @@ public class BookingServiceImpl implements BookingService {
                     .findByBookingQuery(
                             LocalDate.parse(forDate, dateTimeFormatter),
                             bookingStatus,
+                            bookingId,
                             userId,
                             gameId,
                             pageable)
