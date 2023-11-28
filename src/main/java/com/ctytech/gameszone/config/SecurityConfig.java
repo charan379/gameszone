@@ -1,4 +1,4 @@
-package com.ctytech.gameszone.security;
+package com.ctytech.gameszone.config;
 
 import java.util.Arrays;
 
