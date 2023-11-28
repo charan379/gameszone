@@ -190,12 +190,16 @@ public class BookingServiceImpl implements BookingService {
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new GameszoneException("BookingService.BOOKING_NOT_FOUND"));
 
+        if ((!booking.getBookingStatus().equals(BookingStatus.REQUESTED)))
+            throw new GameszoneException("BookingService.UNPERMITTED_OPERATION");
+
         switch (status) {
             case APPROVED:
                 booking.setBookingStatus(BookingStatus.APPROVED);
                 break;
             case REJECTED:
                 booking.setBookingStatus(BookingStatus.REJECTED);
+                break;
             case CANCELLED:
                 if (SecurityContextHolder.getContext().getAuthentication().getName()
                         .equals(booking.getUser().getUserName())) {
@@ -203,8 +207,9 @@ public class BookingServiceImpl implements BookingService {
                 } else {
                     throw new GameszoneException("BookingService.UNAUTHORIZED_OPERATION");
                 }
+                break;
             default:
-                throw new GameszoneException("BookingService.UNSUPPORTED_OPERATION");
+                throw new GameszoneException("BookingService.UNPERMITTED_OPERATION");
         }
 
         return booking.tDto();
