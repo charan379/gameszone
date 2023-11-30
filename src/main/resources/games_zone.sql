@@ -10,7 +10,10 @@ ALTER TABLE bookings AUTO_INCREMENT =1000;
 
 
 -- users 
-INSERT INTO `users` (`user_id`,`user_name`, `email`, `password`, `status`) VALUES (1000, 'testUser1', 'testUser1@gmail.com','$2a$10$suGLlNDdozkM5QSkicsS3eoTNNWUioh8mB2AKjMqjI3E9OFRGVzRS', 'ACTIVE');
+INSERT INTO `users` (`user_id`,`user_name`, `email`, `password`, `status`) VALUES (1000, 'admin', 'admin@gmail.com','$2a$10$hNUKiQxAviPJO5TcS2aKQO73J9PulgrfrSwRfjb7KA9gk2ask28V2', 'ACTIVE');
+-- admiN@123
+INSERT INTO `users` (`user_id`,`user_name`, `email`, `password`, `status`) VALUES (1001, 'user', 'user@gmail.com','$2a$10$FBO03Sg4oUXTFOWg5GzgBeeSwJJjQjbsHpUtj/kMFVEPI5aXZrG06', 'ACTIVE');
+-- useR@123 
 
 -- roles
 INSERT INTO `roles` (`role_id`,`role_name`) VALUES (1000, 'ADMIN');
@@ -19,6 +22,7 @@ INSERT INTO `roles` (`role_id`,`role_name`) VALUES (1001, 'USER');
 -- authorities
 INSERT INTO `authorities` (`user_id`, `role_id`) VALUES (1000, 1000);
 INSERT INTO `authorities` (`user_id`, `role_id`) VALUES (1000, 1001);
+INSERT INTO `authorities` (`user_id`, `role_id`) VALUES (1001, 1001);
 
 -- games
 INSERT INTO `games` (`game_id`, `game_name`, `image`) VALUES (1000, 'Cricket', '');
