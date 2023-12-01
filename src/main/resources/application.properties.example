@@ -2,6 +2,9 @@
 server.port= Server Port to run on
 server.servlet.context-path= context-path
 
+debug=boolean
+
+
 # Mysql
 spring.datasource.url=jdbc:mysql://host:port/databaseName?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&connectionTimeZone=Asia/Calcutta
 spring.datasource.username=mysql username
@@ -18,10 +21,7 @@ server.error.whitelabel.enabled=false
 #hibernate
 spring.jpa.properties.show_sql=true
 spring.jpa.hibernate.ddl-auto=update
-logging.level.org.hibernate.orm.jdbc.bind=trace
-# logging.level.org.hibernate.type=info
-logging.level.org.hibernate.type=trace
-logging.level.org.hibernate.stat=debug
+
 
 # time zone 
 # Asia/Calcutta
@@ -35,3 +35,14 @@ app.config.time-zone=
 
 #jwt
 app.jwt.secret=
+
+
+# logback
+logging.level.org.hibernate.orm.jdbc.bind=info
+logging.level.root=info
+# logging.level.org.hibernate.type=info
+logging.level.org.hibernate.type=info
+logging.level.org.hibernate.stat=info
+logging.pattern.console=%d{dd-MM-yy HH:mm:ss, Asia/Calcutta} %5p [%t] %c{10} [%M] - %m %n %n
+logging.file.name=app.log
+logging.pattern.file=%d{dd-MMM-yyyy hh:mm:ss a, Asia/Calcutta} %level [%thread] %logger{10} [%file:%line] %msg %n

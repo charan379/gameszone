@@ -4,6 +4,8 @@ import java.time.ZoneId;
 import java.util.Optional;
 import java.util.TimeZone;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,6 +23,8 @@ public class GameszoneApplication {
 	@Value("${app.config.time-zone:#{null}}")
 	private Optional<String> TIME_ZONE;
 
+	Logger logger = LoggerFactory.getLogger(GameszoneApplication.class);
+
 	public static void main(String[] args) {
 		SpringApplication.run(GameszoneApplication.class, args);
 	}
@@ -29,8 +33,10 @@ public class GameszoneApplication {
 	public void init() {
 
 		if (TIME_ZONE.isPresent() && ZoneId.getAvailableZoneIds().contains(TIME_ZONE.get())) {
+			logger.info("Setting application timezone to " + TIME_ZONE.get());
 			TimeZone.setDefault(TimeZone.getTimeZone(ZoneId.of(TIME_ZONE.get())));
 		} else {
+			logger.info("Setting application timezone to " + "UTC");
 			TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 		}
 
