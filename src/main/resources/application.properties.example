@@ -33,7 +33,7 @@ app.config.time-zone=
 # 18:30
 # app.config.bookings.opening-time=
 
-#jwt
+# jwt
 app.jwt.secret=
 
 
