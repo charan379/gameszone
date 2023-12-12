@@ -36,7 +36,6 @@ public class AuthenticationAPI {
         public ResponseEntity<AuthResponse> generateToken(@RequestBody @Valid AuthRequest authRequest)
                         throws Exception, GameszoneException, UsernameNotFoundException {
 
-                logger.info("dfsdfsdfsdf 379 " + TimeZone.getDefault().toString());
 
                 AuthResponse authResponse = authenticationService.authenticate(authRequest.getUserName(),
                                 authRequest.getPassword());
